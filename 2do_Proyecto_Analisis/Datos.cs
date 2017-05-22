@@ -13,6 +13,8 @@ namespace _2do_Proyecto_Analisis
         public static List<Aula> listaAulas;
         public static List<Horario> listaHorariosPadres;
         public static List<Horario> listaHorariosHijos;
+        public static List<String> dias;
+        public static Random inicial;
 
         public Datos()
         {
@@ -21,32 +23,73 @@ namespace _2do_Proyecto_Analisis
             Datos.listaAulas = new List<Aula>();
             Datos.listaHorariosPadres = new List<Horario>();
             Datos.listaHorariosHijos = new List<Horario>();
+            Datos.inicial = new Random();
+            Datos.dias = new List<String>();
 
+            Datos.dias.Add("Lunes ");
+            Datos.dias.Add("Martes ");
+            Datos.dias.Add("Miercoles ");
+            Datos.dias.Add("Jueves ");
+            Datos.dias.Add("Viernes ");
+
+            llenarCursos();
+            llenarProfesores();
+            llenarAulas();
+            poblacionInicial();
+        }
+        public void poblacionInicial()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                Horario nuevo = new Horario();
+                for (int j = 0; j < listaCursos.Count; j++)
+                {
+                    for (int k = 0; k < listaCursos[j].getLecciones(); k++)
+                    {
+                        nuevo.insertarClase(j, profesorDeClase(j));
+                    }
+                }
+                listaHorariosHijos.Add(nuevo);
+            }
+        }
+
+        public int profesorDeClase(int clase)
+        {
+            List<int> disponibles = new List<int>();
+            for (int i = 0; i < Datos.listaProfesores.Count; i++)
+            {
+                if (Datos.listaProfesores[i].imparteClase(clase))
+                    disponibles.Add(i);
+            }
+            if (disponibles.Count != 0)
+                return disponibles[inicial.Next(0, disponibles.Count)];
+            return -1;
         }
 
         public void llenarCursos()
         {
             listaCursos.Add(new Curso("Inglés Básico", 1, 0, 3)); //0
             listaCursos.Add(new Curso("Matemática General", 2, 0, 5));//1
-
+            //8
             listaCursos.Add(new Curso("Ingles I", 1, 1, 3));//2
             listaCursos.Add(new Curso("Comunicación Técnica", 1, 1, 4));//3
             listaCursos.Add(new Curso("Fundamentos de organización de computadoras", 1, 1, 4));//4
             listaCursos.Add(new Curso("Introducción a la programación", 2, 1, 4));//5
             listaCursos.Add(new Curso("Taller de programación", 2, 1, 4));//6
             listaCursos.Add(new Curso("Matemática discreta", 2, 1, 4));//7
-
+            //23
             listaCursos.Add(new Curso("Ingles II", 1, 2, 3));//8
             listaCursos.Add(new Curso("Estructuras de datos", 1, 2, 4));//9
             listaCursos.Add(new Curso("Programación orientada a objetos", 1, 2, 4));//10
             listaCursos.Add(new Curso("Arquitectura de computadores", 1, 2, 4));//11
             listaCursos.Add(new Curso("Cálculo", 2, 2, 4));//12
-
+            //19
             listaCursos.Add(new Curso("Ingles III", 1, 3, 3));//13
             listaCursos.Add(new Curso("Ambiente humano", 1, 3, 3));//14
             listaCursos.Add(new Curso("Análisis de algoritmos", 2, 3, 4));//15
             listaCursos.Add(new Curso("Bases de datos I", 2, 3, 4));//16
             listaCursos.Add(new Curso("Álgebra lineal", 2, 3, 4));//17
+            //18
         }
 
         public void llenarProfesores()

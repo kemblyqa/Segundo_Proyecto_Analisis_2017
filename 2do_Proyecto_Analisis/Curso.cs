@@ -18,5 +18,17 @@ namespace _2do_Proyecto_Analisis
             this.bloque = bloque;
             this.numeroLecciones = numeroLecciones;
         }
+        public int getClases()
+        {
+            return numeroClases;
+        }
+        public int getLecciones()
+        {
+            return numeroLecciones;
+        }
+        public String getNombre()
+        {
+            return nombre;
+        }
     }
 }

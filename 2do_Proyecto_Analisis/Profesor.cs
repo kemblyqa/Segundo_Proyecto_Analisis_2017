@@ -35,5 +35,15 @@ namespace _2do_Proyecto_Analisis
                 horasRestringidas.Add(horaRestringida);
             }            
         }
+        public bool imparteClase(int clase)
+        {
+            if (this.indicesCursos.Contains(clase))
+                return true;
+            return false;
+        }
+        public String getNombre()
+        {
+            return nombre;
+        }
     }
 }
