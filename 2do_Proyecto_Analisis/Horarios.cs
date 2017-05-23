@@ -15,33 +15,42 @@ namespace _2do_Proyecto_Analisis
          * elementos al curso, profesor y aula
          * pos 0 curso, pos 1 profesor
          **/
-        public int[,,] horario;
+        public Leccion[,] aulas;
+        public Leccion[,] bloques;
+        public Leccion[,] profesores;
+        public List<List<int>> encargados;
 
         public Horario()
         {
-            this.horario = new int[5, 50, 2];
-            for (int i = 0; i < 5; i++)
+            this.aulas = new Leccion[50,Datos.listaAulas.Count];
+            this.bloques = new Leccion[50, Datos.listaCursos.Count];
+            this.profesores = new Leccion[50, Datos.listaProfesores.Count];
+            this.encargados = new List<List<int>>();
+            for (int i = 0; i < Datos.listaCursos.Count; i++)
             {
-                for (int j = 0; j < 50; j++)
+                this.encargados.Add(new List<int>());
+                for (int j = 0; j < Datos.listaCursos[i].Count; j++)
                 {
-                    for (int k = 0; k < 2; k++)
-                    {
-                        this.horario[i, j, k] = -1;
-                    }
+                    encargados[i].Add(Datos.profesorDeClase(i,j));
                 }
             }
         }
-        public void insertarClase(int clase, int profesor)
+        public void insertarLeccion(int bloque, int curso)
         {
-            int aula = Datos.inicial.Next(0, 5);
-            int hora = Datos.inicial.Next(0, 50);
-            while (this.horario[aula, hora, 0] != -1)
+            int aula = Datos.randy.Next(0, Datos.listaAulas.Count);
+            int hora = Datos.randy.Next(0, 50);
+            while (this.aulas[hora, aula] != null || this.bloques[hora,bloque] !=null || this.profesores[hora,encargados[bloque][curso]] !=null)
             {
-                aula = Datos.inicial.Next(0, 5);
-                hora = Datos.inicial.Next(0, 50);
+                aula = Datos.randy.Next(0, 5);
+                hora = Datos.randy.Next(0, 50);
             }
-            this.horario[aula, hora, 0] = clase;
-            this.horario[aula, hora, 1] = profesor;
+            this.aulas[hora, aula] = new Leccion(aula, bloque, curso);
+            this.bloques[hora, bloque] = new Leccion(aula, bloque, curso);
+            this.profesores[hora, encargados[bloque][curso]] = new Leccion(aula, bloque, curso);
+        }
+        public int getEncargado(int bloque,int curso)
+        {
+            return encargados[bloque][curso];
         }
     }
 }

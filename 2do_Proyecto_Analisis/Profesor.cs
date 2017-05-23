@@ -10,18 +10,18 @@ namespace _2do_Proyecto_Analisis
     {
         string nombre;
         List<int[]> horasRestringidas;
-        List<int> indicesCursos;
+        List<string> indicesCursos;
 
         public Profesor(string nombre)
         {
             this.nombre = nombre;
             this.horasRestringidas = new List<int[]>();
-            this.indicesCursos = new List<int>();
+            this.indicesCursos = new List<string>();
         }
 
-        public void añadirCurso(int indice)
+        public void añadirCurso(int bloque, int curso)
         {
-            indicesCursos.Add(indice);
+            indicesCursos.Add(bloque+","+curso);
         }
 
         public void añadirIntervaloHoraRestringida(int inicio, int fin)
@@ -35,9 +35,9 @@ namespace _2do_Proyecto_Analisis
                 horasRestringidas.Add(horaRestringida);
             }            
         }
-        public bool imparteClase(int clase)
+        public bool imparteClase(int bloque, int curso)
         {
-            if (this.indicesCursos.Contains(clase))
+            if (this.indicesCursos.Contains(bloque+","+curso))
                 return true;
             return false;
         }

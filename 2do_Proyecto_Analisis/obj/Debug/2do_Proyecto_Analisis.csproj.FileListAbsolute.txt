@@ -5,3 +5,9 @@ C:\Users\alber\Google Drive\TEC\Analisis de algoritmos\Proyecto_2\2do_Proyecto_A
 C:\Users\alber\Google Drive\TEC\Analisis de algoritmos\Proyecto_2\2do_Proyecto_Analisis\obj\Debug\2do_Proyecto_Analisis.csprojResolveAssemblyReference.cache
 C:\Users\alber\Google Drive\TEC\Analisis de algoritmos\Proyecto_2\2do_Proyecto_Analisis\obj\Debug\2do_Proyecto_Analisis.exe
 C:\Users\alber\Google Drive\TEC\Analisis de algoritmos\Proyecto_2\2do_Proyecto_Analisis\obj\Debug\2do_Proyecto_Analisis.pdb
+E:\Segundo_Proyecto_Analisis_2017-master\2do_Proyecto_Analisis\bin\Debug\2do_Proyecto_Analisis.exe.config
+E:\Segundo_Proyecto_Analisis_2017-master\2do_Proyecto_Analisis\obj\Debug\2do_Proyecto_Analisis.exe
+E:\Segundo_Proyecto_Analisis_2017-master\2do_Proyecto_Analisis\obj\Debug\2do_Proyecto_Analisis.pdb
+E:\Segundo_Proyecto_Analisis_2017-master\2do_Proyecto_Analisis\obj\Debug\2do_Proyecto_Analisis.csprojResolveAssemblyReference.cache
+E:\Segundo_Proyecto_Analisis_2017-master\2do_Proyecto_Analisis\bin\Debug\2do_Proyecto_Analisis.exe
+E:\Segundo_Proyecto_Analisis_2017-master\2do_Proyecto_Analisis\bin\Debug\2do_Proyecto_Analisis.pdb
