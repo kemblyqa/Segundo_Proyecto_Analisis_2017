@@ -52,5 +52,52 @@ namespace _2do_Proyecto_Analisis
         {
             return encargados[bloque][curso];
         }
+        public bool validar_Campo(int hora, Leccion nueva)
+        {
+            if (this.aulas[hora, nueva.getAula()] != null || this.bloques[hora, nueva.getBloque()] != null || this.profesores[hora, this.encargados[nueva.getBloque()][nueva.getCurso()]] != null)
+            {
+                return false;
+            }
+            return true;
+        }
+        public Leccion cambiar(Leccion nueva, int hora)
+        {
+            Leccion retorno = this.aulas[hora, nueva.getAula()];
+            List<Leccion> contenedor = new List<Leccion>();
+            int t = Datos.listaCursos[nueva.getBloque()][nueva.getCurso()].getLecciones();
+            for (int i = 0; i < 50 || contenedor.Count<t ; i++)
+            {
+                if(this.bloques[i, nueva.getBloque()].getCurso() == nueva.getCurso())
+                {
+                    contenedor.Add(this.bloques[i, nueva.getBloque()]);
+                }
+            }
+            Leccion escogida = contenedor[Datos.randy.Next(0, contenedor.Count())];
+            this.aulas[hora, escogida.getAula()] = null;
+            this.bloques[hora, escogida.getBloque()] = null;
+            this.profesores[hora, this.encargados[escogida.getBloque()][escogida.getCurso()]] = null;
+            this.aulas[hora, nueva.getAula()] = nueva;
+            this.bloques[hora, nueva.getBloque()]= nueva;
+            this.profesores[hora, this.encargados[nueva.getBloque()][nueva.getCurso()]] = nueva;
+            return retorno;
+        }
+        public void cambiar_Aula(int hora, int aula, ref Horario pareja)
+        {
+            Leccion objetivo = this.aulas[hora, aula];
+            if (pareja.validar_Campo(hora, this.aulas[hora, this.aulas[hora, aula].getAula()]))
+                {
+                Leccion nuevo = pareja.cambiar(objetivo, hora);
+                if (this.validar_Campo(hora, nuevo))
+                {
+                    this.aulas[hora, nuevo.getAula()] = nuevo;
+                    this.bloques[hora, nuevo.getBloque()] = nuevo;
+                    this.profesores[hora, this.encargados[nuevo.getBloque()][nuevo.getCurso()]] = nuevo;
+                }
+                else
+                {
+                    pareja.cambiar(nuevo, hora);
+                }
+            }
+        }
     }
 }
