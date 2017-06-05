@@ -15,6 +15,8 @@ namespace _2do_Proyecto_Analisis
         public static List<Horario> listaHorariosHijos;
         public static List<String> dias;
         public static Random randy;
+        public static Horario horarioBackTracking;
+        public static Horario horarioFinal;
 
         public Datos()
         {
@@ -25,6 +27,8 @@ namespace _2do_Proyecto_Analisis
             Datos.listaHorariosHijos = new List<Horario>();
             Datos.randy = new Random();
             Datos.dias = new List<String>();
+            Datos.horarioBackTracking = new Horario();
+            Datos.horarioFinal = new Horario();
 
             Datos.dias.Add("Lunes ");
             Datos.dias.Add("Martes ");
@@ -50,7 +54,6 @@ namespace _2do_Proyecto_Analisis
                         {
                             nuevo.insertarLeccion(j,k);
                         }
-
                     }
                 }
                 listaHorariosHijos.Add(nuevo);
@@ -70,7 +73,7 @@ namespace _2do_Proyecto_Analisis
             return -1;
         }
 
-        public void llenarCursos()
+        public void llenarCursos() //[0] bloque, [1] cursos del bloque
         {
             //0
             listaCursos.Add(new List<Curso>());
@@ -181,6 +184,24 @@ namespace _2do_Proyecto_Analisis
             listaAulas.Add(new Aula("I3")); listaAulas[2].añadirIntervaloHoraRestringida(20, 23);
             listaAulas.Add(new Aula("I4")); listaAulas[3].añadirIntervaloHoraRestringida(32, 35);
             listaAulas.Add(new Aula("I5")); listaAulas[4].añadirIntervaloHoraRestringida(45, 49);*/
+        }
+
+        public void backTracking()
+        {
+
+            backTrackingRec(Datos.horarioBackTracking, Datos.listaCursos);
+        }
+
+        public bool backTrackingRec(Horario horario, List<List<Curso>> cursos)
+        {
+            for (int i = 0; i < cursos.Count; i++)//total de bloques
+            {
+                for (int j = 0; j < cursos[i].Count; j++)//total de cursos por bloque
+                {
+                    //insertar leccion
+                }
+            }
+            return false;
         }
     }
 }
