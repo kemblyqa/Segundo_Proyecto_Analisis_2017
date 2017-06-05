@@ -63,46 +63,85 @@ namespace _2do_Proyecto_Analisis
             }
             return true;
         }
-        //public Leccion cambiar(Leccion nueva, int hora)
-        //{
-        //    Leccion retorno = this.aulas[hora, nueva.getAula()];
-        //    List<Leccion> contenedor = new List<Leccion>();
-        //    int t = Datos.listaCursos[nueva.getBloque()][nueva.getCurso()].getLecciones();
-        //    for (int i = 0; i < 50 || contenedor.Count<t ; i++)
-        //    {
-        //        if(this.bloques[i, nueva.getBloque()].getCurso() == nueva.getCurso())
-        //        {
-        //            contenedor.Add(this.bloques[i, nueva.getBloque()]);
-        //        }
-        //    }
-        //    Leccion escogida = contenedor[Datos.randy.Next(0, contenedor.Count())];
-        //    this.aulas[hora, escogida.getAula()] = null;
-        //    this.bloques[hora, escogida.getBloque()] = null;
-        //    this.profesores[hora, this.encargados[escogida.getBloque()][escogida.getCurso()]] = null;
-        //    this.aulas[hora, nueva.getAula()] = nueva;
-        //    this.bloques[hora, nueva.getBloque()]= nueva;
-        //    this.profesores[hora, this.encargados[nueva.getBloque()][nueva.getCurso()]] = nueva;
-        //    return retorno;
-        //}
-        //public void cambiar_Aula(int hora, int aula, ref Horario pareja)
-        //{
-        //    Leccion objetivo = this.aulas[hora, aula];
-        //    if (pareja.validar_Campo(hora, this.aulas[hora, this.aulas[hora, aula].getAula()]))
-        //        {
-        //        Leccion nuevo = pareja.cambiar(objetivo, hora);
-        //        if (this.validar_Campo(hora, nuevo))
-        //        {
-        //            this.aulas[hora, nuevo.getAula()] = nuevo;
-        //            this.bloques[hora, nuevo.getBloque()] = nuevo;
-        //            this.profesores[hora, this.encargados[nuevo.getBloque()][nuevo.getCurso()]] = nuevo;
-        //        }
-        //        else
-        //        {
-        //            pareja.cambiar(nuevo, hora);
-        //        }
-        //    }
-        //}
-
-        
+        public Leccion cambiar(Leccion nueva, int hora)
+        {
+            Leccion retorno = this.aulas[hora, nueva.getAula()];
+            List<Leccion> contenedor = new List<Leccion>();
+            int t = Datos.listaCursos[nueva.getBloque()][nueva.getCurso()].getLecciones();
+            for (int i = 0; i < 50 || contenedor.Count<t ; i++)
+            {
+                if(this.bloques[i, nueva.getBloque()].getCurso() == nueva.getCurso())
+                {
+                    contenedor.Add(this.bloques[i, nueva.getBloque()]);
+                }
+            }
+            Leccion escogida = contenedor[Datos.randy.Next(0, contenedor.Count())];
+            this.aulas[hora, escogida.getAula()] = null;
+            this.bloques[hora, escogida.getBloque()] = null;
+            this.profesores[hora, this.encargados[escogida.getBloque()][escogida.getCurso()]] = null;
+            this.aulas[hora, nueva.getAula()] = nueva;
+            this.bloques[hora, nueva.getBloque()]= nueva;
+            this.profesores[hora, this.encargados[nueva.getBloque()][nueva.getCurso()]] = nueva;
+            return retorno;
+        }
+        public void cambiar_Aula(int hora, int aula, int pareja)
+        {
+            Leccion objetivo = this.aulas[hora, aula];
+            if (Datos.listaHorariosPadres[pareja].validar_Campo(hora, this.aulas[hora, this.aulas[hora, aula].getAula()]))
+                {
+                Leccion nuevo = Datos.listaHorariosPadres[pareja].cambiar(objetivo, hora);
+                if (this.validar_Campo(hora, nuevo))
+                {
+                    this.aulas[hora, nuevo.getAula()] = nuevo;
+                    this.bloques[hora, nuevo.getBloque()] = nuevo;
+                    this.profesores[hora, this.encargados[nuevo.getBloque()][nuevo.getCurso()]] = nuevo;
+                }
+                else
+                {
+                    Datos.listaHorariosPadres[pareja].cambiar(nuevo, hora);
+                }
+            }
+        }
+        public int fitness()
+        {
+            int fallos = 0;
+            for (int i = 0; i < Datos.listaCursos.Count; i++)
+            {
+                for (int j = 0; j < Datos.listaCursos[i].Count; j++)
+                {
+                    int clases = 0;
+                    for (int k = 0; k < 50; k++)
+                    {
+                        if (this.bloques[i,k].getCurso()==j)
+                        {
+                            clases++;
+                            while (k!=50 && this.bloques[i, k].getCurso() == j)
+                            {
+                                k++;
+                            }
+                        }
+                    }
+                    int diferencia = clases - Datos.listaCursos[i][j].getClases();
+                    if (diferencia!=0)
+                    {
+                        fallos += Math.Abs(diferencia);
+                    }
+                }
+            }
+            return fallos;
+        }
+        public void cruceAulas_Seccion(int macho)
+        {
+            int inicio = Datos.randy.Next(0, 50);
+            int limite = Datos.randy.Next(inicio,(inicio+20<50)? inicio+20:50);
+            int aula = Datos.randy.Next(0, Datos.listaAulas.Count);
+            int hembra = Datos.randy.Next(0, Datos.listaHorariosPadres.Count);
+            if (hembra == macho)
+                hembra = (hembra + 1) % Datos.listaHorariosPadres.Count;
+            for (int i = inicio; i < limite; i++)
+            {
+                this.cambiar_Aula(i,aula, hembra);
+            }
+        }
     }
 }

@@ -44,10 +44,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aula.cs" />
+    <Compile Include="BackTracking.cs" />
     <Compile Include="Curso.cs" />
     <Compile Include="Datos.cs" />
     <Compile Include="Horarios.cs" />
     <Compile Include="Leccion.cs" />
+    <Compile Include="PMX.cs" />
     <Compile Include="Profesor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
