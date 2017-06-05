@@ -11,3 +11,15 @@ E:\Segundo_Proyecto_Analisis_2017-master\2do_Proyecto_Analisis\obj\Debug\2do_Pro
 E:\Segundo_Proyecto_Analisis_2017-master\2do_Proyecto_Analisis\obj\Debug\2do_Proyecto_Analisis.csprojResolveAssemblyReference.cache
 E:\Segundo_Proyecto_Analisis_2017-master\2do_Proyecto_Analisis\bin\Debug\2do_Proyecto_Analisis.exe
 E:\Segundo_Proyecto_Analisis_2017-master\2do_Proyecto_Analisis\bin\Debug\2do_Proyecto_Analisis.pdb
+C:\Users\alber\Google Drive\Desktop\TEC\Analisis de algoritmos\Proyecto_2\2do_Proyecto_Analisis\obj\Debug\2do_Proyecto_Analisis.csprojResolveAssemblyReference.cache
+C:\Users\alber\Google Drive\Desktop\TEC\Analisis de algoritmos\Proyecto_2\2do_Proyecto_Analisis\obj\Debug\2do_Proyecto_Analisis.exe
+C:\Users\alber\Google Drive\Desktop\TEC\Analisis de algoritmos\Proyecto_2\2do_Proyecto_Analisis\obj\Debug\2do_Proyecto_Analisis.pdb
+C:\Users\alber\Google Drive\Desktop\TEC\Analisis de algoritmos\Proyecto_2\2do_Proyecto_Analisis\bin\Debug\2do_Proyecto_Analisis.exe.config
+C:\Users\alber\Google Drive\Desktop\TEC\Analisis de algoritmos\Proyecto_2\2do_Proyecto_Analisis\bin\Debug\2do_Proyecto_Analisis.exe
+C:\Users\alber\Google Drive\Desktop\TEC\Analisis de algoritmos\Proyecto_2\2do_Proyecto_Analisis\bin\Debug\2do_Proyecto_Analisis.pdb
+C:\Users\Usuario\Desktop\Proyecto_2\2do_Proyecto_Analisis\bin\Debug\2do_Proyecto_Analisis.exe.config
+C:\Users\Usuario\Desktop\Proyecto_2\2do_Proyecto_Analisis\obj\Debug\2do_Proyecto_Analisis.exe
+C:\Users\Usuario\Desktop\Proyecto_2\2do_Proyecto_Analisis\obj\Debug\2do_Proyecto_Analisis.pdb
+C:\Users\Usuario\Desktop\Proyecto_2\2do_Proyecto_Analisis\bin\Debug\2do_Proyecto_Analisis.exe
+C:\Users\Usuario\Desktop\Proyecto_2\2do_Proyecto_Analisis\bin\Debug\2do_Proyecto_Analisis.pdb
+C:\Users\Usuario\Desktop\Proyecto_2\2do_Proyecto_Analisis\obj\Debug\2do_Proyecto_Analisis.csprojResolveAssemblyReference.cache

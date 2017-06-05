@@ -48,7 +48,7 @@ namespace _2do_Proyecto_Analisis
                     {
                         for (int l = 0; l < listaCursos[j][k].getLecciones(); l++)
                         {
-                            nuevo.insertarLeccion(j,k);
+                            nuevo.insertarLeccion(j, k);
                         }
 
                     }
@@ -104,74 +104,74 @@ namespace _2do_Proyecto_Analisis
         {
             // PROFESORES DE INGLES
             listaProfesores.Add(new Profesor("Danilo Alpizar"));
-            listaProfesores[0].añadirCurso(0,0); listaProfesores[0].añadirIntervaloHoraRestringida(0, 19);
-            listaProfesores[0].añadirCurso(0,0);
-            listaProfesores[0].añadirCurso(2,0);
-            listaProfesores[0].añadirCurso(3,0);
+            listaProfesores[0].añadirCurso(0, 0); listaProfesores[0].añadirIntervaloHoraRestringida(0, 19);
+            listaProfesores[0].añadirCurso(0, 0);
+            listaProfesores[0].añadirCurso(2, 0);
+            listaProfesores[0].añadirCurso(3, 0);
 
             listaProfesores.Add(new Profesor("Marlon Perez"));
-            listaProfesores[1].añadirCurso(0,0); listaProfesores[1].añadirIntervaloHoraRestringida(45, 49);
-            listaProfesores[1].añadirCurso(1,0); listaProfesores[1].añadirIntervaloHoraRestringida(0, 4);
-            listaProfesores[1].añadirCurso(2,0);
-            listaProfesores[1].añadirCurso(3,0);
+            listaProfesores[1].añadirCurso(0, 0); listaProfesores[1].añadirIntervaloHoraRestringida(45, 49);
+            listaProfesores[1].añadirCurso(1, 0); listaProfesores[1].añadirIntervaloHoraRestringida(0, 4);
+            listaProfesores[1].añadirCurso(2, 0);
+            listaProfesores[1].añadirCurso(3, 0);
 
             // PROFESORES DE MATES
             listaProfesores.Add(new Profesor("Karina Gonzales"));
-            listaProfesores[2].añadirCurso(0,1); listaProfesores[2].añadirIntervaloHoraRestringida(20, 29);
-            listaProfesores[2].añadirCurso(1,5);
-            listaProfesores[2].añadirCurso(2,4);
-            listaProfesores[2].añadirCurso(3,4);
+            listaProfesores[2].añadirCurso(0, 1); listaProfesores[2].añadirIntervaloHoraRestringida(20, 29);
+            listaProfesores[2].añadirCurso(1, 5);
+            listaProfesores[2].añadirCurso(2, 4);
+            listaProfesores[2].añadirCurso(3, 4);
 
             listaProfesores.Add(new Profesor("Dere Elizondo"));
-            listaProfesores[3].añadirCurso(0,1); listaProfesores[3].añadirIntervaloHoraRestringida(30, 39);
-            listaProfesores[3].añadirCurso(1,5);
-            listaProfesores[3].añadirCurso(2,4);
-            listaProfesores[3].añadirCurso(3,4);
+            listaProfesores[3].añadirCurso(0, 1); listaProfesores[3].añadirIntervaloHoraRestringida(30, 39);
+            listaProfesores[3].añadirCurso(1, 5);
+            listaProfesores[3].añadirCurso(2, 4);
+            listaProfesores[3].añadirCurso(3, 4);
 
             // PROFESORES DE CIENCIAS SOCIALES
             listaProfesores.Add(new Profesor("Erick Acuña"));
-            listaProfesores[4].añadirCurso(1,1); listaProfesores[4].añadirIntervaloHoraRestringida(5, 9);
+            listaProfesores[4].añadirCurso(1, 1); listaProfesores[4].añadirIntervaloHoraRestringida(5, 9);
 
             listaProfesores.Add(new Profesor("Shirley Alarcón"));
-            listaProfesores[5].añadirCurso(3,1); 
+            listaProfesores[5].añadirCurso(3, 1);
 
             listaProfesores.Add(new Profesor("Adrián Jaen"));
-            listaProfesores[6].añadirCurso(3,1);
+            listaProfesores[6].añadirCurso(3, 1);
 
             // PROFESORES DE CARRERA
             listaProfesores.Add(new Profesor("Diego Rojas"));
-            listaProfesores[7].añadirCurso(1,2); listaProfesores[7].añadirIntervaloHoraRestringida(15, 18);
-            listaProfesores[7].añadirCurso(2,1); listaProfesores[7].añadirIntervaloHoraRestringida(25, 28);
+            listaProfesores[7].añadirCurso(1, 2); listaProfesores[7].añadirIntervaloHoraRestringida(15, 18);
+            listaProfesores[7].añadirCurso(2, 1); listaProfesores[7].añadirIntervaloHoraRestringida(25, 28);
 
             listaProfesores.Add(new Profesor("Vera Gamboa"));
-            listaProfesores[8].añadirCurso(1,3); listaProfesores[8].añadirIntervaloHoraRestringida(0, 9);
-            listaProfesores[8].añadirCurso(1,4);
+            listaProfesores[8].añadirCurso(1, 3); listaProfesores[8].añadirIntervaloHoraRestringida(0, 9);
+            listaProfesores[8].añadirCurso(1, 4);
 
             listaProfesores.Add(new Profesor("Dennis Valverde"));
-            listaProfesores[9].añadirCurso(1,3);
-            listaProfesores[9].añadirCurso(1,4);
+            listaProfesores[9].añadirCurso(1, 3);
+            listaProfesores[9].añadirCurso(1, 4);
 
             listaProfesores.Add(new Profesor("Rogelio Gonzales"));
-            listaProfesores[10].añadirCurso(2,1);
+            listaProfesores[10].añadirCurso(2, 1);
 
             listaProfesores.Add(new Profesor("Oscar Víquez"));
-            listaProfesores[11].añadirCurso(2,1); listaProfesores[11].añadirIntervaloHoraRestringida(10, 12);
-            listaProfesores[11].añadirCurso(2,2); listaProfesores[11].añadirIntervaloHoraRestringida(30, 34);
+            listaProfesores[11].añadirCurso(2, 1); listaProfesores[11].añadirIntervaloHoraRestringida(10, 12);
+            listaProfesores[11].añadirCurso(2, 2); listaProfesores[11].añadirIntervaloHoraRestringida(30, 34);
 
             listaProfesores.Add(new Profesor("Lorena Valerio"));
-            listaProfesores[12].añadirCurso(2,1);
-            listaProfesores[12].añadirCurso(2,2);
-            listaProfesores[12].añadirCurso(3,2);
+            listaProfesores[12].añadirCurso(2, 1);
+            listaProfesores[12].añadirCurso(2, 2);
+            listaProfesores[12].añadirCurso(3, 2);
 
             listaProfesores.Add(new Profesor("Rocío Quirós"));
-            listaProfesores[13].añadirCurso(1,2); listaProfesores[13].añadirIntervaloHoraRestringida(0, 1);
-            listaProfesores[13].añadirCurso(2,3); listaProfesores[13].añadirIntervaloHoraRestringida(10, 11);
+            listaProfesores[13].añadirCurso(1, 2); listaProfesores[13].añadirIntervaloHoraRestringida(0, 1);
+            listaProfesores[13].añadirCurso(2, 3); listaProfesores[13].añadirIntervaloHoraRestringida(10, 11);
 
             listaProfesores.Add(new Profesor("Jorge Alfaro"));
-            listaProfesores[14].añadirCurso(2,3); listaProfesores[14].añadirIntervaloHoraRestringida(15, 19);
+            listaProfesores[14].añadirCurso(2, 3); listaProfesores[14].añadirIntervaloHoraRestringida(15, 19);
 
             listaProfesores.Add(new Profesor("Leonardo Víquez"));
-            listaProfesores[15].añadirCurso(3,3);
+            listaProfesores[15].añadirCurso(3, 3);
         }
 
         public void llenarAulas()
@@ -181,6 +181,44 @@ namespace _2do_Proyecto_Analisis
             listaAulas.Add(new Aula("I3")); listaAulas[2].añadirIntervaloHoraRestringida(20, 23);
             listaAulas.Add(new Aula("I4")); listaAulas[3].añadirIntervaloHoraRestringida(32, 35);
             listaAulas.Add(new Aula("I5")); listaAulas[4].añadirIntervaloHoraRestringida(45, 49);*/
+        }
+
+        public static Horario clonar(Horario origen)
+        {
+            Horario destino = new Horario();
+            for (int i = 0; i < origen.aulas.GetLength(0); i++)
+            {
+                for (int j = 0; j < origen.aulas.GetLength(1); j++)
+                {
+                    destino.aulas[i, j] = clonar(origen.aulas[i, j]);
+                }
+            }
+            for (int i = 0; i < origen.bloques.GetLength(0); i++)
+            {
+                for (int j = 0; j < origen.bloques.GetLength(1); j++)
+                {
+                    destino.bloques[i, j] = clonar(origen.bloques[i, j]);
+                }
+            }
+            for (int i = 0; i < origen.profesores.GetLength(0); i++)
+            {
+                for (int j = 0; j < origen.profesores.GetLength(1); j++)
+                {
+                    destino.profesores[i, j] = clonar(origen.profesores[i, j]);
+                }
+            }
+            for (int i = 0; i < origen.encargados.Count; i++)
+            {
+                for (int j = 0; j < origen.encargados[i].Count; j++)
+                {
+                    destino.encargados[i][j] = origen.encargados[i][j];
+                }
+            }
+            return destino;
+        }
+        public static Leccion clonar(Leccion origen)
+        {
+            return new Leccion(origen.getAula(),origen.getBloque(),origen.getCurso());
         }
     }
 }
