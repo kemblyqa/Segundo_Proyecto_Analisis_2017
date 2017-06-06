@@ -108,32 +108,51 @@ namespace _2do_Proyecto_Analisis
                         {
                             j = intervalo[1] + 1;
                             continue;
-                            if (mapeo[h][0] == -1)
+                        }
+                        for (int m = 0; m < 2; m++)
+                        {
+                            if (mapeo[h][m] == -1)
                             {
-                                if (camada[0].aulas[k, j] == null)
+                                if (camada[m].aulas[k, j] == null)
                                 {
-                                    int bloque = 0;
-                                    for (int l = 0; l < camada[k].bloques.GetLength(1); l++)
+                                    int bloque = -1;
+                                    for (int l = 0; l < camada[m].bloques.GetLength(1); l++)
                                     {
-                                        if (camada[k].bloques[k, l] == null)
+                                        if (camada[m].bloques[k, l] == null)
                                         {
                                             bloque = k;
                                             break;
                                         }
                                     }
-                                    pila[1, h] = new Leccion(j, bloque, -1);
-                                    horas[h, 0] = k;
+                                    pila[(m + 1) % 2, h] = new Leccion(j, bloque, -1);
+                                    horas[h, m] = k;
                                 }
                             }
                             else
                             {
-                                if (camada[0].aulas[k, j].getCurso() == mapeo[h][0])
+                                if (camada[m].aulas[k, j].getCurso() == mapeo[h][m])
                                 {
-                                    pila[1, h] = camada[0].aulas[k, j];
-
+                                    aux = camada[m].aulas[k, j];
+                                    pila[(m+1)%2, h] = aux;
+                                    horas[h, m] = k;
+                                    camada[m].aulas[k, j] = null;
+                                    camada[m].bloques[k, aux.getBloque()] = null;
+                                    camada[m].profesores[k, camada[m].getEncargado(aux.getBloque(), aux.getCurso())] = null;
                                 }
                             }
                         }
+                    }
+                }
+            }
+            for (int i = 0; i < pila.GetLength(1); i++)
+            {
+                for (int j = 0; j < 2; j++)
+                {
+                    if (pila[j, i].getCurso() != -1)
+                    {
+                        camada[j].aulas[horas[i, j], pila[j, i].getAula()] = pila[j, i];
+                        camada[j].bloques[horas[i, j], pila[j, i].getBloque()] = pila[j, i];
+                        camada[j].profesores[horas[i, j], camada[j].getEncargado(pila[j, i].getBloque(), pila[j, i].getCurso())]=pila[j,i];
                     }
                 }
             }

@@ -23,3 +23,7 @@ C:\Users\Usuario\Desktop\Proyecto_2\2do_Proyecto_Analisis\obj\Debug\2do_Proyecto
 C:\Users\Usuario\Desktop\Proyecto_2\2do_Proyecto_Analisis\bin\Debug\2do_Proyecto_Analisis.exe
 C:\Users\Usuario\Desktop\Proyecto_2\2do_Proyecto_Analisis\bin\Debug\2do_Proyecto_Analisis.pdb
 C:\Users\Usuario\Desktop\Proyecto_2\2do_Proyecto_Analisis\obj\Debug\2do_Proyecto_Analisis.csprojResolveAssemblyReference.cache
+E:\Proyecto_2\2do_Proyecto_Analisis\bin\Debug\2do_Proyecto_Analisis.exe.config
+E:\Proyecto_2\2do_Proyecto_Analisis\obj\Debug\2do_Proyecto_Analisis.exe
+E:\Proyecto_2\2do_Proyecto_Analisis\obj\Debug\2do_Proyecto_Analisis.pdb
+E:\Proyecto_2\2do_Proyecto_Analisis\obj\Debug\2do_Proyecto_Analisis.csprojResolveAssemblyReference.cache

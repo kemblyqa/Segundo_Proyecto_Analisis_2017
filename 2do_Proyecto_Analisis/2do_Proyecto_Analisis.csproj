@@ -46,7 +46,7 @@
     <Compile Include="Aula.cs" />
     <Compile Include="Curso.cs" />
     <Compile Include="Datos.cs" />
-    <Compile Include="Horarios.cs" />
+    <Compile Include="Horario.cs" />
     <Compile Include="Leccion.cs" />
     <Compile Include="PMX.cs" />
     <Compile Include="Profesor.cs" />

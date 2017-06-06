@@ -48,7 +48,7 @@ namespace _2do_Proyecto_Analisis
                     {
                         for (int l = 0; l < listaCursos[j][k].getLecciones(); l++)
                         {
-                            nuevo.insertarLeccion(j, k);
+                            nuevo.insertarCurso(j, k);
                         }
 
                     }
@@ -186,32 +186,18 @@ namespace _2do_Proyecto_Analisis
         public static Horario clonar(Horario origen)
         {
             Horario destino = new Horario();
-            for (int i = 0; i < origen.aulas.GetLength(0); i++)
+            for (int i = 0; i < 50; i++)
             {
-                for (int j = 0; j < origen.aulas.GetLength(1); j++)
+                for (int j = 0; j < Datos.listaCursos.Count; j++)
                 {
-                    destino.aulas[i, j] = clonar(origen.aulas[i, j]);
+                    destino.setLeccion(i, j, clonar(origen.getLeccion(j, i)));
                 }
             }
-            for (int i = 0; i < origen.bloques.GetLength(0); i++)
+            for (int i = 0; i < Datos.listaCursos.Count; i++)
             {
-                for (int j = 0; j < origen.bloques.GetLength(1); j++)
+                for (int j = 0; j < Datos.listaCursos[i].Count; j++)
                 {
-                    destino.bloques[i, j] = clonar(origen.bloques[i, j]);
-                }
-            }
-            for (int i = 0; i < origen.profesores.GetLength(0); i++)
-            {
-                for (int j = 0; j < origen.profesores.GetLength(1); j++)
-                {
-                    destino.profesores[i, j] = clonar(origen.profesores[i, j]);
-                }
-            }
-            for (int i = 0; i < origen.encargados.Count; i++)
-            {
-                for (int j = 0; j < origen.encargados[i].Count; j++)
-                {
-                    destino.encargados[i][j] = origen.encargados[i][j];
+                    destino.setEncargado(i, j, origen.getEncargado(i, j));
                 }
             }
             return destino;
