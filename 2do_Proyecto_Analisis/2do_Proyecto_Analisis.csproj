@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aula.cs" />
+    <Compile Include="BackTracking.cs" />
     <Compile Include="Curso.cs" />
     <Compile Include="Datos.cs" />
     <Compile Include="Horario.cs" />

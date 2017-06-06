@@ -46,7 +46,7 @@ namespace _2do_Proyecto_Analisis
 
             return null;
         }
-        public static List<Horario> crucePorAulas(int padre,int madre)
+        public static List<Horario> cruce_Bloques(int padre,int madre)
         {
             List<Horario> camada = new List<Horario>();
             camada.Add(Datos.clonar(Datos.listaHorariosPadres[padre]));
