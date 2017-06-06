@@ -10,10 +10,13 @@ namespace _2do_Proyecto_Analisis
     class Program
     {
         static Datos datos;
+        static BackTracking back;
         static void Main(string[] args)
         {
             datos = new Datos();
             imprimirPoblacion_Todo(Datos.listaHorariosHijos);
+            back = new BackTracking();
+            back.backTracking();
             ReadKey();
         }
         static void imprimirPoblacion_Aulas( List<Horario> poblacion)
