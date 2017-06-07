@@ -43,7 +43,7 @@ namespace _2do_Proyecto_Analisis
         }
         public void poblacionInicial()
         {
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 10; i++)
             {
                 Horario nuevo = new Horario();
                 for (int j = 0; j < listaCursos.Count; j++)
@@ -188,13 +188,6 @@ namespace _2do_Proyecto_Analisis
         public static Horario clonar(Horario origen)
         {
             Horario destino = new Horario();
-            for (int i = 0; i < 50; i++)
-            {
-                for (int j = 0; j < Datos.listaCursos.Count; j++)
-                {
-                    destino.setLeccion(i, j, clonar(origen.getLeccion(j, i)));
-                }
-            }
             for (int i = 0; i < Datos.listaCursos.Count; i++)
             {
                 for (int j = 0; j < Datos.listaCursos[i].Count; j++)
@@ -202,10 +195,19 @@ namespace _2do_Proyecto_Analisis
                     destino.setEncargado(i, j, origen.getEncargado(i, j));
                 }
             }
+            for (int i = 0; i < 50; i++)
+            {
+                for (int j = 0; j < Datos.listaCursos.Count; j++)
+                {
+                    destino.setLeccion(i, j, clonar(origen.getLeccion(j, i)), true);
+                }
+            }
             return destino;
         }
         public static Leccion clonar(Leccion origen)
         {
+            if (origen == null)
+                return null;
             return new Leccion(origen.getAula(),origen.getBloque(),origen.getCurso());
         }
     }

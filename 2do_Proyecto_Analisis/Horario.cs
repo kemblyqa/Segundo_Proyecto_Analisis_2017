@@ -20,20 +20,20 @@ namespace _2do_Proyecto_Analisis
         private Leccion[,] aulas;
         private Leccion[,] bloques;
         private Leccion[,] profesores;
-        private List<List<int>> encargados;
+        private List<List<int[]>> datocurso;
 
         public Horario()
         {
-            this.aulas = new Leccion[50,Datos.listaAulas.Count];
+            this.aulas = new Leccion[50, Datos.listaAulas.Count];
             this.bloques = new Leccion[50, Datos.listaCursos.Count];
             this.profesores = new Leccion[50, Datos.listaProfesores.Count];
-            this.encargados = new List<List<int>>();
+            this.datocurso = new List<List<int[]>>();
             for (int i = 0; i < Datos.listaCursos.Count; i++)
             {
-                this.encargados.Add(new List<int>());
+                this.datocurso.Add(new List<int[]>());
                 for (int j = 0; j < Datos.listaCursos[i].Count; j++)
                 {
-                    encargados[i].Add(Datos.profesorDeClase(i,j));
+                    this.datocurso[i].Add(new int[2] { Datos.profesorDeClase(i, j), 0 });
                 }
             }
         }
@@ -41,14 +41,47 @@ namespace _2do_Proyecto_Analisis
         {
             int aula = Datos.randy.Next(0, Datos.listaAulas.Count);
             int hora = Datos.randy.Next(0, 50);
-            while (this.aulas[hora, aula] != null || this.bloques[hora,bloque] !=null || this.profesores[hora,encargados[bloque][curso]] !=null)
+            while (this.aulas[hora, aula] != null || this.bloques[hora, bloque] != null || this.profesores[hora, datocurso[bloque][curso][0]] != null)
             {
                 aula = Datos.randy.Next(0, Datos.listaAulas.Count);
                 hora = Datos.randy.Next(0, 50);
             }
             this.aulas[hora, aula] = new Leccion(aula, bloque, curso);
             this.bloques[hora, bloque] = new Leccion(aula, bloque, curso);
-            this.profesores[hora, encargados[bloque][curso]] = new Leccion(aula, bloque, curso);
+            this.profesores[hora, datocurso[bloque][curso][0]] = new Leccion(aula, bloque, curso);
+        }
+        public void insertarCurso(Leccion x)
+        {
+            for (int y = 0; y < 150; y++)
+            {
+                int i = Datos.randy.Next(0, 50);
+                if (this.aulas[i, x.getAula()] == null && this.bloques[i, x.getBloque()] == null && this.profesores[i, this.getEncargado(x)] == null)
+                {
+                    this.aulas[i, x.getAula()] = x;
+                    this.bloques[i, x.getBloque()] = x;
+                    this.profesores[i, this.getEncargado(x)] = x;
+                    this.datocurso[x.getBloque()][x.getCurso()][1]++;
+                    return;
+                }
+            }
+            for (int j = 0; j < Datos.listaAulas.Count; j++)
+            {
+                for (int y = 0; y < 150; y++)
+                {
+                    int i = Datos.randy.Next(0, 50);
+                    if (this.aulas[i, j] == null && this.bloques[i, x.getBloque()] == null && this.profesores[i, this.getEncargado(x)] == null)
+                    {
+                        x.setAutla(j);
+                        this.aulas[i, x.getAula()] = x;
+                        this.bloques[i, x.getBloque()] = x;
+                        this.profesores[i, this.getEncargado(x)] = x;
+                        this.datocurso[x.getBloque()][x.getCurso()][1]++;
+                        return;
+                    }
+                }
+            }
+            Console.WriteLine("No se ha podido hallar un espacio disponible para la insercion segura");
+            Console.ReadKey();
         }
         public Leccion popLeccion(int bloque, int hora)
         {
@@ -58,41 +91,80 @@ namespace _2do_Proyecto_Analisis
                 this.bloques[hora, bloque] = null;
                 this.aulas[hora, valor.getAula()] = null;
                 this.profesores[hora, this.getEncargado(valor)] = null;
+                this.datocurso[bloque][valor.getCurso()][1]--;
             }
-
             return valor;
         }
         public Leccion getLeccion(int bloque,int hora)
         {
             return this.bloques[hora, bloque];
         }
-        public bool setLeccion(int hora,int bloque,Leccion valor)
+        public bool setLeccion(int hora,int bloque,Leccion valor,bool clonado)
         {
             if (validar_Campo(hora, bloque, valor))
             {
                 if (valor != null)
                 {
-                    this.bloques[hora, bloque] = valor;
+                    this.bloques[hora, valor.getBloque()] = valor;
                     this.aulas[hora, valor.getAula()] = valor;
-                    this.profesores[hora, this.encargados[bloque][valor.getCurso()]] = valor;
+                    this.profesores[hora, this.datocurso[bloque][valor.getCurso()][0]] = valor;
+                    if (!clonado)
+                        this.datocurso[bloque][valor.getCurso()][1]++;
                 }
                 return true;
             }
             return false;
         }
+        public void insertarPMX(int hora, int bloque, Leccion x, int inicio, int fin)
+        {
+            Leccion aux;
+            if (x == null)
+            {
+                if (this.bloques[hora, bloque] != null)
+                {
+                    aux = popLeccion(bloque,hora);
+                    insertarCurso(aux);
+                }
+            }
+            else
+            {
+                while (!validar_Campo(hora, bloque, x))
+                {
+                    aux = this.bloques[hora, bloque];
+                    if (aux != null)
+                    {
+                        aux = popLeccion(aux.getBloque(), hora);
+                        insertarCurso(aux);
+                    }
+                    aux = this.aulas[hora, x.getAula()];
+                    if (aux != null)
+                    {
+                        aux = popLeccion(aux.getBloque(), hora);
+                        insertarCurso(aux);
+                    }
+                    aux = this.profesores[hora, this.getEncargado(x)];
+                    if (aux != null)
+                    {
+                        aux = this.popLeccion(aux.getBloque(), hora);
+                        insertarCurso(aux);
+                    }
+                }
+                this.setLeccion(hora, x.getBloque(), x, false);
+            }
+        }
         public int getEncargado(int bloque,int curso)
         {
-            return encargados[bloque][curso];
+            return this.datocurso[bloque][curso][0];
         }
         public int getEncargado(Leccion x)
         {
             if (x == null)
                 return -1;
-            return encargados[x.getBloque()][x.getCurso()];
+            return this.datocurso[x.getBloque()][x.getCurso()][0];
         }
         public void setEncargado(int bloque, int curso, int encargado)
         {
-            this.encargados[bloque][curso] = encargado;
+            this.datocurso[bloque][curso][0] = encargado;
         }
         public bool validar_Campo(int hora, int bloque, Leccion nueva)
         {
@@ -103,7 +175,7 @@ namespace _2do_Proyecto_Analisis
                 else
                     return false;
             }
-            if (this.aulas[hora, nueva.getAula()] != null || this.bloques[hora, nueva.getBloque()] != null || this.profesores[hora, this.encargados[nueva.getBloque()][nueva.getCurso()]] != null)
+            if (this.aulas[hora, nueva.getAula()] != null || this.bloques[hora, nueva.getBloque()] != null || this.profesores[hora, this.datocurso[nueva.getBloque()][nueva.getCurso()][0]] != null)
             {
                 return false;
             }
@@ -119,11 +191,13 @@ namespace _2do_Proyecto_Analisis
                     int clases = 0;
                     for (int k = 0; k < 50; k++)
                     {
-                        if (this.bloques[i,k].getCurso()==j)
+                        if (this.bloques[k, i] != null && (this.bloques[k, i].getBloque() == i && this.bloques[k, i].getCurso() == j))
                         {
                             clases++;
-                            while (k!=50 && this.bloques[i, k].getCurso() == j)
+                            while (k != 50 && this.bloques[k, i] != null && (this.bloques[k, i].getBloque() == i && this.bloques[k, i].getCurso() == j))
                             {
+                                if ((k+1) % 10 == 0)
+                                    break;
                                 k++;
                             }
                         }
@@ -131,24 +205,23 @@ namespace _2do_Proyecto_Analisis
                     int diferencia = clases - Datos.listaCursos[i][j].getClases();
                     if (diferencia!=0)
                     {
-                        fallos += Math.Abs(diferencia);
+                        fallos += 1;
                     }
                 }
             }
             return fallos;
         }
-        public bool apto()
+        public int[] apto()
         {
-            List<List<int[]>> contadores = new List<List<int[]>>();
-            for (int i = 0; i < Datos.listaCursos.Count; i++)
+            for (int i = 0; i < this.datocurso.Count; i++)
             {
-                contadores.Add(new List<int[]>());
-                for (int j = 0; j < Datos.listaCursos[i].Count; j++)
+                for (int j = 0; j < this.datocurso[i].Count; j++)
                 {
-                    contadores[i].Add(new int[3] { 0, 0, Datos.listaCursos[i][j].getLecciones() });
+                    if (this.datocurso[i][j][1] != 0)
+                        return new int[2] { i,j};
                 }
             }
-            return true;
+            return null;
         }
         public void imprimir_Aulas()
         {
@@ -184,6 +257,7 @@ namespace _2do_Proyecto_Analisis
                     }
                 }
             }
+            WriteLine(this.fitness());
             ReadKey();
         }
         public void imprimir_Profesor()

@@ -17,7 +17,7 @@ namespace _2do_Proyecto_Analisis
         {
             for (int i = 0; i < cursos.Count; i++)//total de bloques
             {
-                for (int j = 0; j < ; j++)
+                for (int j = 0; j < cursos[i].Count; j++)
                 {
 
                 }

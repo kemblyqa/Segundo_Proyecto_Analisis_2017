@@ -29,5 +29,9 @@ namespace _2do_Proyecto_Analisis
         {
             return this.idCurso;
         }
+        public void setAutla(int x)
+        {
+            this.idAula = x;
+        }
     }
 }

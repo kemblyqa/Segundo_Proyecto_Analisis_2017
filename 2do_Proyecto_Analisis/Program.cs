@@ -13,7 +13,17 @@ namespace _2do_Proyecto_Analisis
         static void Main(string[] args)
         {
             datos = new Datos();
-            imprimirPoblacion_Todo(Datos.listaHorariosHijos);
+            imprimirPoblacion_Bloques(Datos.listaHorariosHijos);
+            int fitness = 18;
+            while (fitness !=0)
+            {
+                PMX.nuevaGeneracion();
+                for (int i = 0; i < Datos.listaHorariosHijos.Count; i++)
+                {
+                    fitness = Datos.listaHorariosHijos[i].fitness() < fitness ? Datos.listaHorariosHijos[i].fitness() : fitness;
+                }
+            }
+            imprimirPoblacion_Bloques(Datos.listaHorariosHijos);
             ReadKey();
         }
         static void imprimirPoblacion_Aulas( List<Horario> poblacion)
