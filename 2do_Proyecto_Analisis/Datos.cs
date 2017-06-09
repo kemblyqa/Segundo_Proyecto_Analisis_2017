@@ -17,7 +17,7 @@ namespace _2do_Proyecto_Analisis
         public static Random randy;
         public static Horario horarioBackTracking;
         public static Horario horarioFinal;
-
+        public static int individuosporgeneracion;
         public Datos()
         {
             Datos.listaCursos = new List<List<Curso>>();
@@ -39,11 +39,12 @@ namespace _2do_Proyecto_Analisis
             llenarCursos();
             llenarProfesores();
             llenarAulas();
-            poblacionInicial();
+            poblacionInicial(20);
         }
-        public void poblacionInicial()
+        public void poblacionInicial(int cantidad)
         {
-            for (int i = 0; i < 10; i++)
+            individuosporgeneracion = cantidad;
+            for (int i = 0; i < cantidad; i++)
             {
                 Horario nuevo = new Horario();
                 for (int j = 0; j < listaCursos.Count; j++)
@@ -180,8 +181,8 @@ namespace _2do_Proyecto_Analisis
         public void llenarAulas()
         {
             listaAulas.Add(new Aula("I1")); listaAulas[0].añadirIntervaloHoraRestringida(16, 17);
-            listaAulas.Add(new Aula("I2")); listaAulas[1].añadirIntervaloHoraRestringida(5, 9);/*
-            listaAulas.Add(new Aula("I3")); listaAulas[2].añadirIntervaloHoraRestringida(20, 23);
+            listaAulas.Add(new Aula("I2")); listaAulas[1].añadirIntervaloHoraRestringida(5, 9);
+            listaAulas.Add(new Aula("I3")); listaAulas[2].añadirIntervaloHoraRestringida(20, 23);/*
             listaAulas.Add(new Aula("I4")); listaAulas[3].añadirIntervaloHoraRestringida(32, 35);
             listaAulas.Add(new Aula("I5")); listaAulas[4].añadirIntervaloHoraRestringida(45, 49);*/
         }

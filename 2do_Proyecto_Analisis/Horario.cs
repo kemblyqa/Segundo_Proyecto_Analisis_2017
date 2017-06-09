@@ -39,28 +39,25 @@ namespace _2do_Proyecto_Analisis
         }
         public void insertarCurso(int bloque, int curso)
         {
-            int aula = Datos.randy.Next(0, Datos.listaAulas.Count);
             int hora = Datos.randy.Next(0, 50);
-            while (this.aulas[hora, aula] != null || this.bloques[hora, bloque] != null || this.profesores[hora, datocurso[bloque][curso][0]] != null)
+            Leccion nueva = new Leccion(Datos.randy.Next(0, Datos.listaAulas.Count), bloque,curso);
+            while (!validar_Campo(hora,bloque,nueva))
             {
-                aula = Datos.randy.Next(0, Datos.listaAulas.Count);
+                nueva.setAutla(Datos.randy.Next(0, Datos.listaAulas.Count));
                 hora = Datos.randy.Next(0, 50);
             }
-            this.aulas[hora, aula] = new Leccion(aula, bloque, curso);
-            this.bloques[hora, bloque] = new Leccion(aula, bloque, curso);
-            this.profesores[hora, datocurso[bloque][curso][0]] = new Leccion(aula, bloque, curso);
+            this.aulas[hora, nueva.getAula()] = nueva;
+            this.bloques[hora, bloque] = nueva;
+            this.profesores[hora, datocurso[bloque][curso][0]] = nueva;
         }
         public void insertarCurso(Leccion x)
         {
             for (int y = 0; y < 150; y++)
             {
                 int i = Datos.randy.Next(0, 50);
-                if (this.aulas[i, x.getAula()] == null && this.bloques[i, x.getBloque()] == null && this.profesores[i, this.getEncargado(x)] == null)
+                if (validar_Campo(i,x.getBloque(),x))
                 {
-                    this.aulas[i, x.getAula()] = x;
-                    this.bloques[i, x.getBloque()] = x;
-                    this.profesores[i, this.getEncargado(x)] = x;
-                    this.datocurso[x.getBloque()][x.getCurso()][1]++;
+                    this.setLeccion(i,x.getBloque(),x,false);
                     return;
                 }
             }
@@ -69,13 +66,10 @@ namespace _2do_Proyecto_Analisis
                 for (int y = 0; y < 150; y++)
                 {
                     int i = Datos.randy.Next(0, 50);
-                    if (this.aulas[i, j] == null && this.bloques[i, x.getBloque()] == null && this.profesores[i, this.getEncargado(x)] == null)
+                    x.setAutla(j);
+                    if (validar_Campo(i,x.getBloque(),x))
                     {
-                        x.setAutla(j);
-                        this.aulas[i, x.getAula()] = x;
-                        this.bloques[i, x.getBloque()] = x;
-                        this.profesores[i, this.getEncargado(x)] = x;
-                        this.datocurso[x.getBloque()][x.getCurso()][1]++;
+                        this.setLeccion(i, x.getBloque(), x, false);
                         return;
                     }
                 }
@@ -115,42 +109,32 @@ namespace _2do_Proyecto_Analisis
             }
             return false;
         }
-        public void insertarPMX(int hora, int bloque, Leccion x, int inicio, int fin)
+        public bool insertarPMX(int hora, int bloque, Leccion x, int inicio, int fin)
         {
-            Leccion aux;
             if (x == null)
             {
-                if (this.bloques[hora, bloque] != null)
+                if (!validar_bloque(hora,bloque))
                 {
-                    aux = popLeccion(bloque,hora);
-                    insertarCurso(aux);
+                    this.insertarCurso(this.popLeccion(bloque, hora));
                 }
             }
             else
             {
-                while (!validar_Campo(hora, bloque, x))
+                if (!validar_Campo(hora, bloque, x))
                 {
-                    aux = this.bloques[hora, bloque];
-                    if (aux != null)
+                    if (!validar_profesor(hora, bloque, x.getCurso()) || !validar_aula(hora, x.getAula()))
+                        return false;
+                    else
                     {
-                        aux = popLeccion(aux.getBloque(), hora);
-                        insertarCurso(aux);
-                    }
-                    aux = this.aulas[hora, x.getAula()];
-                    if (aux != null)
-                    {
-                        aux = popLeccion(aux.getBloque(), hora);
-                        insertarCurso(aux);
-                    }
-                    aux = this.profesores[hora, this.getEncargado(x)];
-                    if (aux != null)
-                    {
-                        aux = this.popLeccion(aux.getBloque(), hora);
-                        insertarCurso(aux);
+                        this.insertarCurso(this.popLeccion(bloque, hora));
                     }
                 }
-                this.setLeccion(hora, x.getBloque(), x, false);
+                else
+                {
+                    this.setLeccion(hora, bloque, x, false);
+                }
             }
+            return true;
         }
         public int getEncargado(int bloque,int curso)
         {
@@ -168,18 +152,33 @@ namespace _2do_Proyecto_Analisis
         }
         public bool validar_Campo(int hora, int bloque, Leccion nueva)
         {
+
             if (nueva == null)
             {
-                if (this.bloques[hora, bloque] == null)
-                    return true;
-                else
-                    return false;
+                return validar_bloque(hora, bloque);
             }
-            if (this.aulas[hora, nueva.getAula()] != null || this.bloques[hora, nueva.getBloque()] != null || this.profesores[hora, this.datocurso[nueva.getBloque()][nueva.getCurso()][0]] != null)
+            if(nueva.getAula()==1 && 9>=hora && hora >= 5)
             {
-                return false;
+
             }
-            return true;
+                
+            if (validar_bloque(hora, bloque) && validar_aula(hora, nueva.getAula()) && validar_profesor(hora, bloque, nueva.getCurso()))
+            {
+                return true;
+            }
+            return false;
+        }
+        public bool validar_bloque(int hora, int bloque)
+        {
+            return (this.bloques[hora, bloque] == null);
+        }
+        public bool validar_aula(int hora, int aula)
+        {
+            return (this.aulas[hora, aula] == null && Datos.listaAulas[aula].horavalida(hora));
+        }
+        public bool validar_profesor(int hora,int bloque, int curso)
+        {
+            return (this.profesores[hora, this.getEncargado(bloque, curso)] == null && Datos.listaProfesores[this.getEncargado(bloque, curso)].horavalida(hora));
         }
         public int fitness()
         {
@@ -205,7 +204,7 @@ namespace _2do_Proyecto_Analisis
                     int diferencia = clases - Datos.listaCursos[i][j].getClases();
                     if (diferencia!=0)
                     {
-                        fallos += 1;
+                        fallos ++;
                     }
                 }
             }
@@ -218,7 +217,7 @@ namespace _2do_Proyecto_Analisis
                 for (int j = 0; j < this.datocurso[i].Count; j++)
                 {
                     if (this.datocurso[i][j][1] != 0)
-                        return new int[2] { i,j};
+                        return new int[2] {i,j};
                 }
             }
             return null;

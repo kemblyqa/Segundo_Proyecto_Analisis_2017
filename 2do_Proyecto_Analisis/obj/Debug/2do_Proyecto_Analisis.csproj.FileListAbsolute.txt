@@ -4,3 +4,9 @@ E:\Proyecto_2\2do_Proyecto_Analisis\bin\Debug\2do_Proyecto_Analisis.pdb
 E:\Proyecto_2\2do_Proyecto_Analisis\obj\Debug\2do_Proyecto_Analisis.exe
 E:\Proyecto_2\2do_Proyecto_Analisis\obj\Debug\2do_Proyecto_Analisis.pdb
 E:\Proyecto_2\2do_Proyecto_Analisis\obj\Debug\2do_Proyecto_Analisis.csprojResolveAssemblyReference.cache
+D:\Proyecto_2\2do_Proyecto_Analisis\bin\Debug\2do_Proyecto_Analisis.exe.config
+D:\Proyecto_2\2do_Proyecto_Analisis\obj\Debug\2do_Proyecto_Analisis.exe
+D:\Proyecto_2\2do_Proyecto_Analisis\obj\Debug\2do_Proyecto_Analisis.pdb
+D:\Proyecto_2\2do_Proyecto_Analisis\bin\Debug\2do_Proyecto_Analisis.exe
+D:\Proyecto_2\2do_Proyecto_Analisis\bin\Debug\2do_Proyecto_Analisis.pdb
+D:\Proyecto_2\2do_Proyecto_Analisis\obj\Debug\2do_Proyecto_Analisis.csprojResolveAssemblyReference.cache

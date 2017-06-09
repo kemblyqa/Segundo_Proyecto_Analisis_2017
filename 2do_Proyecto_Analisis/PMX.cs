@@ -8,9 +8,10 @@ namespace _2do_Proyecto_Analisis
 {
     static class PMX
     {
-        static string texto;
+        static int mutaciones,fallos = 0;
         public static bool distintos(Horario a,Horario b)
         {
+            int diferencias = 0;
             for (int i = 0; i < Datos.listaCursos.Count; i++)
             {
                 for (int j = 0; j < 50; j++)
@@ -18,7 +19,9 @@ namespace _2do_Proyecto_Analisis
                     if ((a.getLeccion(i, j) != null ? a.getLeccion(i, j).getCurso() : -1) != 
                         (b.getLeccion(i, j) != null ? b.getLeccion(i, j).getCurso() : -1))
                     {
-                        return true;
+                        diferencias++;
+                        if (diferencias > 5)
+                            return true;
                     }
                 }
             }
@@ -26,7 +29,7 @@ namespace _2do_Proyecto_Analisis
         }
         public static void nuevaGeneracion()
         {
-            texto = "";
+            Console.WriteLine(mutaciones+" mutaciones \n"+fallos+" camadas fallidas");
             Datos.listaHorariosPadres = Datos.listaHorariosHijos;
             Datos.listaHorariosHijos = new List<Horario>();
             List<int[]> fitness = new List<int[]>();
@@ -52,19 +55,18 @@ namespace _2do_Proyecto_Analisis
                         }
                     }
             }
-            Console.WriteLine(fitness[0][1]);
             int padre, madre=0;
-            while (Datos.listaHorariosHijos.Count < 10)
+            while (Datos.listaHorariosHijos.Count < Datos.listaHorariosPadres.Count)
             {
-                madre = Datos.randy.Next(0,4);
+                madre = Datos.randy.Next(0,(Datos.individuosporgeneracion/5)*2);
                 padre = Datos.randy.Next(0, Datos.listaHorariosHijos.Count);
+
                 List<Horario> camada = cruce_Bloques(padre,madre);
                 if (camada[0] != null)
                 {
                     if (Datos.listaHorariosHijos.Count == 0)
                     {
                         Datos.listaHorariosHijos.Add(camada[0]);
-                        Console.WriteLine("Hijo agregado");
                     }
                     else
                     {
@@ -79,16 +81,14 @@ namespace _2do_Proyecto_Analisis
                         if (diferente)
                         {
                             Datos.listaHorariosHijos.Add(camada[0]);
-                            Console.WriteLine("Hijo agregado");
                         }
                     }
                 }
-                if (camada[1] != null && Datos.listaHorariosHijos.Count < 10)
+                if (camada[1] != null && Datos.listaHorariosHijos.Count < Datos.individuosporgeneracion)
                 {
                     if (Datos.listaHorariosHijos.Count == 0)
                     {
                         Datos.listaHorariosHijos.Add(camada[1]);
-                        Console.WriteLine("Hijo agregado");
                     }
                     else
                     {
@@ -103,14 +103,13 @@ namespace _2do_Proyecto_Analisis
                         if (diferente)
                         {
                             Datos.listaHorariosHijos.Add(camada[1]);
-                            Console.WriteLine("Hijo agregado");
                         }
                     }
                 }
             }
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < Datos.listaHorariosPadres.Count/3; i++)
             {
-                for (int j = 0; j < 10; j++)
+                for (int j = 0; j < Datos.listaHorariosPadres.Count; j++)
                 {
                     if (Datos.listaHorariosPadres[i].fitness() < Datos.listaHorariosHijos[j].fitness())
                     {
@@ -120,7 +119,6 @@ namespace _2do_Proyecto_Analisis
                     }
                 }
             }
-            Console.WriteLine(texto);
         }
         public static List<Horario> cruce(int padre, int madre)
         {
@@ -143,8 +141,12 @@ namespace _2do_Proyecto_Analisis
             for (int i = intervalo[0]; i <= intervalo[1]; i++)
             {
                 aux = camada[0].popLeccion(bloque, i);
-                camada[0].insertarPMX(i, bloque, camada[1].popLeccion(bloque, i), intervalo[0], intervalo[1]);
-                camada[1].insertarPMX(i, bloque, aux, intervalo[0], intervalo[1]);
+                if (!camada[0].insertarPMX(i, bloque, camada[1].popLeccion(bloque, i), intervalo[0], intervalo[1]) ||
+                    !camada[1].insertarPMX(i, bloque, aux, intervalo[0], intervalo[1]))
+                {
+                    fallos++;
+                    return new List<Horario>() { null, null };
+                }
                 int[] tupla = new int[2];
 
                 aux = camada[0].getLeccion(bloque, i);
@@ -154,33 +156,7 @@ namespace _2do_Proyecto_Analisis
                 tupla[1] = aux != null ? aux.getCurso() : -1;
                 mapeo = insertarMapeo(mapeo, tupla);
             }
-            if (mapeo.Count == 0)
-            {
-                if (Datos.randy.Next(0, 10) == 0)
-                {
-                    intervalo[0] = Datos.randy.Next(intervalo[0], intervalo[1]);
-                    intervalo[1] = Datos.randy.Next(intervalo[0], intervalo[1]);
 
-                    int[] tupla = new int[2];
-                    aux = camada[0].popLeccion(bloque, intervalo[0]);
-                    tupla[0] = camada[1].getLeccion(bloque, intervalo[0])!=null? camada[1].getLeccion(bloque, intervalo[0]).getCurso():-1;
-                    camada[0].insertarPMX(intervalo[0], bloque, camada[1].popLeccion(bloque, intervalo[1]), intervalo[0], intervalo[1]);
-                    tupla[1] = aux != null ? aux.getCurso() : -1;
-                    camada[1].insertarPMX(intervalo[1], bloque, aux, intervalo[0], intervalo[1]);
-
-                    mapeo = insertarMapeo(mapeo, tupla);
-                    if (mapeo.Count == 0)
-                    {
-                        return new List<Horario>() { null, null };
-                    }
-                }
-                else
-                    return new List<Horario>() { null, null };
-            }
-            for (int i = 0; i < mapeo.Count; i++)
-            {
-                text += mapeo[i][0] + "\t - \t" + mapeo[i][1] + "\n";
-            }
             pila = new Leccion[2, mapeo.Count];
             int[,] horas = new int[mapeo.Count, 2];
             for (int h = 0; h < mapeo.Count; h++)
@@ -190,7 +166,6 @@ namespace _2do_Proyecto_Analisis
                 int rep = 30;
                 while ((horas[h, 0] == -1 || horas[h,1]==-1) && rep!=0)
                 {
-                    int x = Datos.randy.Next(0, 2);
                     for (int k = 0; k < 50; k++)
                     {
                         if (k == intervalo[0])
@@ -238,15 +213,19 @@ namespace _2do_Proyecto_Analisis
                     rep--;
                 }
                 if (rep == 0)
+                {
+                    fallos++;
                     return new List<Horario>() { null, null };
+
+                }
             }
             //mutacion
             for (int i = 0; i < 2; i++)
             {
-                int x = Datos.randy.Next(0, pila.GetLength(1)/3==0?2: (pila.GetLength(1) / 3)+1);
-                text += "al menos " + x + " mutaciones";
+                int x = Datos.randy.Next(0, pila.GetLength(1)/3==0?Datos.randy.Next(0,2): (pila.GetLength(1) / 3)+1);
                 for (int j = 0; j < x; j++)
                 {
+                    mutaciones++;
                     int a, b;
                     a = Datos.randy.Next(0, pila.GetLength(1));
                     b = Datos.randy.Next(0, pila.GetLength(1));
@@ -260,20 +239,21 @@ namespace _2do_Proyecto_Analisis
             {
                 for (int j = 0; j < 2; j++)
                 {
-                    camada[j].insertarPMX(horas[i, j], bloque, pila[j, i],intervalo[0],intervalo[1]);
+                    if(!camada[j].insertarPMX(horas[i, j], bloque, pila[j, i], intervalo[0], intervalo[1]))
+                    {
+                        return new List<Horario>() { null, null };
+                    }
                 }
             }
             for (int i = 0; i < 2; i++)
             {
                 if (camada[i].apto() != null)
                 {
-                    Console.WriteLine("Perdida de consistencia");
-                    Console.WriteLine(camada[i].apto()[0] + ", " + camada[i].apto()[1]);
                     camada[i] = null;
                 }
             }
-            if (camada[0] != null || camada[1] != null)
-                texto += text;
+            if (camada[0] == null && camada[1] == null)
+                fallos++;
             return camada;
         }
         public static List<int[]> insertarMapeo(List<int[]> mapeo,int[] nuevo)
