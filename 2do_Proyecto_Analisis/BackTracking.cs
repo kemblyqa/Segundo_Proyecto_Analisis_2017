@@ -8,10 +8,6 @@ namespace _2do_Proyecto_Analisis
 {
     class BackTracking
     {
-        // List<Leccion> listaLecciones;
-        //listaLecciones.Add(new Leccion(-1, i, j));
-        //listaLecciones = new List<Leccion>();
-
         List<List<Leccion>> listaPilasBloque;
         Random rnd;
         public BackTracking()
@@ -33,47 +29,46 @@ namespace _2do_Proyecto_Analisis
 
         public void backTracking()
         {
-            backTrackingRec(Datos.horarioBackTracking, 0, 0, 0, listaPilasBloque);
+            backTrackingRec(Datos.horarioBackTracking, 0, listaPilasBloque);
+            Datos.horarioFinal.imprimir_Bloques();
         }
 
-        public bool backTrackingRec(Horario horario, int bloque, int hora, int aula, List<List<Leccion>> pilaPorBloque)
+        public bool backTrackingRec(Horario horario, int bloque, List<List<Leccion>> pilaPorBloque)
         {
-            if (pilaPorBloque[bloque].Count == 0)
+            if (bloque < Datos.listaCursos.Count)
             {
-                if (bloque != Datos.listaCursos.Count - 1)
+                Console.SetCursorPosition(0, 0);
+                Console.WriteLine("Bloque: " + bloque + " Lecciones restantes: " + pilaPorBloque[bloque].Count + "\t");
+                for (int i = 0; i < pilaPorBloque[bloque].Count; i++)
                 {
-                    if (backTrackingRec(horario, bloque + 1, 0, 0, pilaPorBloque))
+                    for (int j = 0; j < Datos.listaAulas.Count; j++)
                     {
-                        return true;
-                    }
-                }
-                else
-                {
-                    Datos.horarioFinal = Datos.clonar(horario);
-                    return true;
-                }
-            }
-
-            for (int i = 0; i < pilaPorBloque[bloque].Count; i++)
-            {
-                for (int j = 0; j < Datos.listaAulas.Count; j++)
-                {
-                    pilaPorBloque[bloque][i].setAula(j);
-
-                    if (horario.setLeccion(hora, bloque, pilaPorBloque[bloque][i]))
-                    {
-                        pilaPorBloque[bloque].RemoveAt(i);
-                        if (backTrackingRec(horario, bloque, hora + 1, aula, pilaPorBloque))
+                        for (int k = 0; k < 50; k++)
                         {
-                            pilaPorBloque[bloque].Insert(i, pilaPorBloque[bloque][i]);
-                            return true;
+                            pilaPorBloque[bloque][i].setAula(j);
+
+                            if (horario.setLeccion(k, bloque, pilaPorBloque[bloque][i], true))
+                            {
+                                Leccion temp = pilaPorBloque[bloque][i];
+                                pilaPorBloque[bloque].RemoveAt(i);
+                                if (backTrackingRec(horario, pilaPorBloque[bloque].Count == 0 ? bloque + 1 : bloque, pilaPorBloque))
+                                {
+                                    pilaPorBloque[bloque].Insert(i, temp);
+                                    return true;
+                                }
+                                pilaPorBloque[bloque].Insert(i, temp);
+                                horario.popLeccion(bloque, k);
+                            }
                         }
-                        pilaPorBloque[bloque].Insert(i, pilaPorBloque[bloque][i]);
-                        horario.popLeccion(bloque, hora);
                     }
-                }        
+                }
+                return false;
             }
-            return false;
+            else
+            {
+                Datos.horarioFinal = Datos.clonar(horario);
+                return true;
+            }           
         }
     }
 }

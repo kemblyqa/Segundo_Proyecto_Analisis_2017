@@ -19,6 +19,17 @@ namespace _2do_Proyecto_Analisis
             this.indicesCursos = new List<string>();
         }
 
+        public bool horavalida(int hora)
+        {
+            for (int i = 0; i < horasRestringidas.Count; i++)
+            {
+                if(hora>=horasRestringidas[i][0] && hora <= horasRestringidas[i][1])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
         public void añadirCurso(int bloque, int curso)
         {
             indicesCursos.Add(bloque+","+curso);
@@ -27,13 +38,9 @@ namespace _2do_Proyecto_Analisis
         public void añadirIntervaloHoraRestringida(int inicio, int fin)
         {
             int[] horaRestringida = new int[2];
-
-            for (int i = inicio; i <= fin; i++)
-            {
-                horaRestringida[0] = i/10;
-                horaRestringida[1] = i%10;
-                horasRestringidas.Add(horaRestringida);
-            }            
+            horaRestringida[0] = inicio;
+            horaRestringida[1] = fin;
+            horasRestringidas.Add(horaRestringida);       
         }
         public bool imparteClase(int bloque, int curso)
         {

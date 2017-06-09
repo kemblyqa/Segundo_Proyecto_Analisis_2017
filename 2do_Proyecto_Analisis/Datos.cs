@@ -18,7 +18,7 @@ namespace _2do_Proyecto_Analisis
 
         public static Horario horarioBackTracking;
         public static Horario horarioFinal;
-
+        public static int individuosporgeneracion;
         public Datos()
         {
             Datos.listaCursos = new List<List<Curso>>();
@@ -29,9 +29,6 @@ namespace _2do_Proyecto_Analisis
             Datos.randy = new Random();
             Datos.dias = new List<String>();
 
-            Datos.horarioBackTracking = new Horario();
-            Datos.horarioFinal = new Horario();
-
             Datos.dias.Add("Lunes ");
             Datos.dias.Add("Martes ");
             Datos.dias.Add("Miercoles ");
@@ -41,11 +38,15 @@ namespace _2do_Proyecto_Analisis
             llenarCursos();
             llenarProfesores();
             llenarAulas();
-            poblacionInicial();
+            poblacionInicial(20);
+
+            Datos.horarioBackTracking = new Horario();
+            Datos.horarioFinal = new Horario();
         }
-        public void poblacionInicial()
+        public void poblacionInicial(int cantidad)
         {
-            for (int i = 0; i < 2; i++)
+            individuosporgeneracion = cantidad;
+            for (int i = 0; i < cantidad; i++)
             {
                 Horario nuevo = new Horario();
                 for (int j = 0; j < listaCursos.Count; j++)
@@ -182,21 +183,14 @@ namespace _2do_Proyecto_Analisis
         public void llenarAulas()
         {
             listaAulas.Add(new Aula("I1")); listaAulas[0].añadirIntervaloHoraRestringida(16, 17);
-            listaAulas.Add(new Aula("I2")); listaAulas[1].añadirIntervaloHoraRestringida(5, 9);/*
-            listaAulas.Add(new Aula("I3")); listaAulas[2].añadirIntervaloHoraRestringida(20, 23);
+            listaAulas.Add(new Aula("I2")); listaAulas[1].añadirIntervaloHoraRestringida(5, 9);
+            listaAulas.Add(new Aula("I3")); listaAulas[2].añadirIntervaloHoraRestringida(20, 23);/*
             listaAulas.Add(new Aula("I4")); listaAulas[3].añadirIntervaloHoraRestringida(32, 35);
             listaAulas.Add(new Aula("I5")); listaAulas[4].añadirIntervaloHoraRestringida(45, 49);*/
         }
         public static Horario clonar(Horario origen)
         {
             Horario destino = new Horario();
-            for (int i = 0; i < 50; i++)
-            {
-                for (int j = 0; j < Datos.listaCursos.Count; j++)
-                {
-                    destino.setLeccion(i, j, clonar(origen.getLeccion(j, i)));
-                }
-            }
             for (int i = 0; i < Datos.listaCursos.Count; i++)
             {
                 for (int j = 0; j < Datos.listaCursos[i].Count; j++)
@@ -204,10 +198,19 @@ namespace _2do_Proyecto_Analisis
                     destino.setEncargado(i, j, origen.getEncargado(i, j));
                 }
             }
+            for (int i = 0; i < 50; i++)
+            {
+                for (int j = 0; j < Datos.listaCursos.Count; j++)
+                {
+                    destino.setLeccion(i, j, clonar(origen.getLeccion(j, i)), true);
+                }
+            }
             return destino;
         }
         public static Leccion clonar(Leccion origen)
         {
+            if (origen == null)
+                return null;
             return new Leccion(origen.getAula(),origen.getBloque(),origen.getCurso());
         }
     }
