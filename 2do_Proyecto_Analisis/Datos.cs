@@ -102,7 +102,7 @@ namespace _2do_Proyecto_Analisis
             listaCursos[bloque].Add(new Curso(nombre, clases, bloque, lecciones));
             leccionesPorCurso[bloque] += lecciones;
         }
-        public void llenarCursos() //[0] bloque, [1] cursos del bloque
+        public void llenarCursos() //[0] bloque, [1] cursos del bloque, 18 cursos en total, 68 lecciones
         {
             //0
             insertar_curso("Inglés Básico", 1, 0, 3); //0
@@ -128,7 +128,7 @@ namespace _2do_Proyecto_Analisis
             insertar_curso("Álgebra lineal", 2, 3, 4);//4
         }
 
-        public void llenarProfesores()
+        public void llenarProfesores() //16 profes
         {
             // PROFESORES DE INGLES
             listaProfesores.Add(new Profesor("Danilo Alpizar"));//0

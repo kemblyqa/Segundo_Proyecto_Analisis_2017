@@ -1,18 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Console;
 
 namespace _2do_Proyecto_Analisis
 {
     class BackTracking
     {
         List<List<Leccion>> listaPilasBloque;
-        Random rnd;
+        Stopwatch temporizador = new Stopwatch();
+        int podas = 0, asig = 0, comp = 0, line = 0, mem = 0;
+        int pesoHorario = (4 * 50 * 12 * (Datos.listaAulas.Count + Datos.listaCursos.Count + Datos.listaProfesores.Count)) + (Datos.listaCursos.Count * 8);
+
+        float time;
+
         public BackTracking()
         {
-            rnd = new Random();
             listaPilasBloque = new List<List<Leccion>>();
             for (int i = 0; i < Datos.listaCursos.Count; i++)
             {
@@ -29,35 +35,55 @@ namespace _2do_Proyecto_Analisis
 
         public void backTracking()
         {
-            backTrackingRec(Datos.horarioBackTracking, 0, listaPilasBloque);
+            temporizador.Start();
+            backTrackingRec(Datos.horarioBackTracking, 0, listaPilasBloque); asig++; mem += 68 * 12;
+            temporizador.Stop();
+
             Datos.horarioFinal.imprimir_Bloques();
+            WriteLine();
+
+            time = temporizador.ElapsedMilliseconds;
+            WriteLine("\nCantidad de podas: " + podas +
+                "\nComparaciones: " + comp +
+                "\nAsignaciones: " + asig +
+                "\nLineas ejecutadas: " + line +
+                "\nTiempo en segundos: " + (time /= 1000) +
+                "\nMemoria en bytes: " + mem);
+            temporizador.Reset();
+            ReadKey();
         }
 
         public bool backTrackingRec(Horario horario, int bloque, List<List<Leccion>> pilaPorBloque)
         {
-            if (bloque < Datos.listaCursos.Count)
+            comp++; if (bloque < Datos.listaCursos.Count)
             {
-                Console.SetCursorPosition(0, 0);
-                Console.WriteLine("Bloque: " + bloque + " Lecciones restantes: " + pilaPorBloque[bloque].Count + "\t");
-                for (int i = 0; i < pilaPorBloque[bloque].Count; i++)
+                mem += 4; for (int i = 0; i < pilaPorBloque[bloque].Count; i++)
                 {
-                    for (int j = 0; j < Datos.listaAulas.Count; j++)
+                    comp++; line++; asig++;
+                    mem += 4; for (int j = 0; j < Datos.listaAulas.Count; j++)
                     {
-                        for (int k = 0; k < 50; k++)
+                        comp++; line++; asig++;
+                        mem += 4; for (int k = 0; k < 50; k++)
                         {
-                            pilaPorBloque[bloque][i].setAula(j);
+                            comp++; line++; asig++; 
+                            pilaPorBloque[bloque][i].setAula(j); asig++; line++;
 
-                            if (horario.setLeccion(k, bloque, pilaPorBloque[bloque][i], true))
+                            comp++;  if (horario.setLeccion(k, bloque, pilaPorBloque[bloque][i], true))
                             {
-                                Leccion temp = pilaPorBloque[bloque][i];
-                                pilaPorBloque[bloque].RemoveAt(i);
-                                if (backTrackingRec(horario, pilaPorBloque[bloque].Count == 0 ? bloque + 1 : bloque, pilaPorBloque))
+                                comp += 8; asig += 3; 
+                                Leccion temp = pilaPorBloque[bloque][i]; asig++; line++; mem += 12;
+                                pilaPorBloque[bloque].RemoveAt(i); line++; 
+                                comp+=2; asig++; if (backTrackingRec(horario, pilaPorBloque[bloque].Count == 0 ? bloque + 1 : bloque, pilaPorBloque))
                                 {
-                                    pilaPorBloque[bloque].Insert(i, temp);
+                                    pilaPorBloque[bloque].Insert(i, temp); asig++; line++;
                                     return true;
                                 }
-                                pilaPorBloque[bloque].Insert(i, temp);
-                                horario.popLeccion(bloque, k);
+                                pilaPorBloque[bloque].Insert(i, temp); asig++; line++;
+                                horario.popLeccion(bloque, k); line++; asig++;
+                            }
+                            else
+                            {
+                                podas++; 
                             }
                         }
                     }
@@ -66,9 +92,12 @@ namespace _2do_Proyecto_Analisis
             }
             else
             {
-                Datos.horarioFinal = Datos.clonar(horario);
+                Datos.horarioFinal = Datos.clonar(horario); asig++;line++; mem += pesoHorario;
                 return true;
             }           
         }
     }
 }
+
+//Console.SetCursorPosition(0, 0);
+//Console.WriteLine("Bloque: " + bloque + " Lecciones restantes: " + pilaPorBloque[bloque].Count + "\t");
