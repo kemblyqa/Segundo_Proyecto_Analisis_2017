@@ -76,7 +76,7 @@ namespace _2do_Proyecto_Analisis
             return -1;
         }
 
-        public void llenarCursos() //[0] bloque, [1] cursos del bloque
+        public void llenarCursos() //[0] bloque, [1] cursos del bloque, 18 cursos en total, 68 lecciones
         {
             //0
             listaCursos.Add(new List<Curso>());
@@ -106,7 +106,7 @@ namespace _2do_Proyecto_Analisis
             listaCursos[3].Add(new Curso("Álgebra lineal", 2, 3, 4));//4
         }
 
-        public void llenarProfesores()
+        public void llenarProfesores() //16 profes
         {
             // PROFESORES DE INGLES
             listaProfesores.Add(new Profesor("Danilo Alpizar"));
@@ -183,8 +183,8 @@ namespace _2do_Proyecto_Analisis
         public void llenarAulas()
         {
             listaAulas.Add(new Aula("I1")); listaAulas[0].añadirIntervaloHoraRestringida(16, 17);
-            listaAulas.Add(new Aula("I2")); listaAulas[1].añadirIntervaloHoraRestringida(5, 9);
-            listaAulas.Add(new Aula("I3")); listaAulas[2].añadirIntervaloHoraRestringida(20, 23);/*
+            listaAulas.Add(new Aula("I2")); listaAulas[1].añadirIntervaloHoraRestringida(5, 9);/*
+            listaAulas.Add(new Aula("I3")); listaAulas[2].añadirIntervaloHoraRestringida(20, 23);
             listaAulas.Add(new Aula("I4")); listaAulas[3].añadirIntervaloHoraRestringida(32, 35);
             listaAulas.Add(new Aula("I5")); listaAulas[4].añadirIntervaloHoraRestringida(45, 49);*/
         }
