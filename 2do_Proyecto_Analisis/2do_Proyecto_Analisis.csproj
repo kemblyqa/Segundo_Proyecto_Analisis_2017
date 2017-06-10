@@ -46,6 +46,7 @@
     <Compile Include="Aula.cs" />
     <Compile Include="BackTracking.cs" />
     <Compile Include="Curso.cs" />
+    <Compile Include="CycleX.cs" />
     <Compile Include="Datos.cs" />
     <Compile Include="Horario.cs" />
     <Compile Include="Leccion.cs" />

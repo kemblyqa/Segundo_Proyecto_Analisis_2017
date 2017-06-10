@@ -35,5 +35,9 @@ namespace _2do_Proyecto_Analisis
             }
             return true;
         }
+        public string getNombre()
+        {
+            return nombre;
+        }
     }
 }

@@ -20,8 +20,8 @@ namespace _2do_Proyecto_Analisis
         private Leccion[,] aulas;
         private Leccion[,] bloques;
         private Leccion[,] profesores;
-        private List<List<int[]>> datocurso;
-
+        public List<List<int[]>> datocurso;
+        public bool padre = false;
         public Horario()
         {
             this.aulas = new Leccion[50, Datos.listaAulas.Count];
@@ -77,22 +77,6 @@ namespace _2do_Proyecto_Analisis
             Console.WriteLine("No se ha podido hallar un espacio disponible para la insercion segura");
             Console.ReadKey();
         }
-        public Leccion popLeccion(int bloque, int hora)
-        {
-            Leccion valor = this.bloques[hora, bloque];
-            if (valor != null)
-            {
-                this.bloques[hora, bloque] = null;
-                this.aulas[hora, valor.getAula()] = null;
-                this.profesores[hora, this.getEncargado(valor)] = null;
-                this.datocurso[bloque][valor.getCurso()][1]--;
-            }
-            return valor;
-        }
-        public Leccion getLeccion(int bloque,int hora)
-        {
-            return this.bloques[hora, bloque];
-        }
         public bool setLeccion(int hora,int bloque,Leccion valor,bool clonado)
         {
             if (validar_Campo(hora, bloque, valor))
@@ -109,33 +93,121 @@ namespace _2do_Proyecto_Analisis
             }
             return false;
         }
-        public bool insertarPMX(int hora, int bloque, Leccion x, int inicio, int fin)
+        public bool insertarFuerte(int hora, int bloque, Leccion x, int inicio, int fin)
         {
+            Leccion aux;
+            int auxh;
             if (x == null)
             {
-                if (!validar_bloque(hora,bloque))
+                if (!validar_bloque(hora, bloque))
                 {
-                    this.insertarCurso(this.popLeccion(bloque, hora));
+                    aux = getLeccion_bloque(hora, bloque);
+                    auxh = getHoraDisponible(bloque, aux, inicio, fin);
+                    popLeccion(bloque, hora);
+                    if (auxh == -1)
+                        return false;
+                    if (!setLeccion(auxh, bloque, aux, false))
+                    {
+
+                    }
                 }
             }
             else
             {
                 if (!validar_Campo(hora, bloque, x))
                 {
-                    if (!validar_profesor(hora, bloque, x.getCurso()) || !validar_aula(hora, x.getAula()))
+                    if (!Datos.listaProfesores[getEncargado(x)].horavalida(hora) || !Datos.listaAulas[x.getAula()].horavalida(hora))
                         return false;
                     else
                     {
-                        this.insertarCurso(this.popLeccion(bloque, hora));
+                        if (!validar_bloque(hora, bloque))
+                        {
+                            aux = getLeccion_bloque(hora, bloque);
+                            auxh = getHoraDisponible(bloque, aux, inicio, fin);
+                            if (auxh == -1)
+                                return false;
+                            popLeccion(bloque, hora);
+                            if (!setLeccion(auxh, bloque, aux, false))
+                            {
+
+                            }
+                        }
+
+                        if (!validar_profesor(hora, x.getBloque(), x.getCurso()))
+                        {
+                            aux = getLeccion_bloque(hora, getLeccion_profesor(hora, getEncargado(x)).getBloque());
+                            auxh = getHoraDisponible(aux.getBloque(), aux, inicio, fin);
+                            if (auxh == -1)
+                                return false;
+                            popLeccion(aux.getBloque(), hora);
+                            if (!setLeccion(auxh, aux.getBloque(), aux, false))
+                            {
+
+                            }
+                        }
+
+                        if (!validar_aula(hora, x.getAula()))
+                        {
+                            aux = getLeccion_bloque(hora, getLeccion_aula(hora, x.getAula()).getBloque());
+                            auxh = getHoraDisponible(aux.getBloque(), aux, inicio, fin);
+                            if (auxh == -1)
+                                return false;
+                            popLeccion(aux.getBloque(), hora);
+                            if (!setLeccion(auxh, aux.getBloque(), aux, false))
+                            {
+
+                            }
+                        }
+                        if (!setLeccion(hora, bloque, x, false))
+                        {
+                            return false;
+                        }
                     }
                 }
                 else
                 {
-                    this.setLeccion(hora, bloque, x, false);
+                    setLeccion(hora, bloque, x, false);
                 }
             }
             return true;
         }
+        public Leccion popLeccion(int bloque, int hora)
+        {
+            Leccion valor = this.bloques[hora, bloque];
+            if (valor != null)
+            {
+                this.bloques[hora, bloque] = null;
+                this.aulas[hora, valor.getAula()] = null;
+                this.profesores[hora, this.getEncargado(valor)] = null;
+                this.datocurso[bloque][valor.getCurso()][1]--;
+            }
+            return valor;
+        }
+        public int getCurso_Bloque(int hora, int bloque)
+        {
+            if (this.bloques[hora, bloque] == null)
+                return -1;
+            else
+                return this.bloques[hora, bloque].getCurso();
+        }
+        public Leccion getLeccion_bloque(int hora, int bloque)
+        {
+            return this.bloques[hora, bloque];
+        }
+        public Leccion getLeccion_aula(int hora, int aula)
+        {
+            return this.aulas[hora, aula];
+        }
+        public Leccion getLeccion_profesor(int hora, int encargado)
+        {
+            return this.profesores[hora, encargado];
+        }
+
+        public int getAula(int hora,int bloque)
+        {
+            return this.bloques[hora, bloque].getAula();
+        }
+        
         public int getEncargado(int bloque,int curso)
         {
             return this.datocurso[bloque][curso][0];
@@ -149,6 +221,21 @@ namespace _2do_Proyecto_Analisis
         public void setEncargado(int bloque, int curso, int encargado)
         {
             this.datocurso[bloque][curso][0] = encargado;
+        }
+        public int leccionesDentro()
+        {
+            int contador=0;
+            for (int i = 0; i < Datos.listaCursos.Count; i++)
+            {
+                for (int j = 0; j < 50; j++)
+                {
+                    if (this.getLeccion_bloque(j,i)!=null)
+                    {
+                        contador++;
+                    }
+                }
+            }
+            return contador;
         }
         public bool validar_Campo(int hora, int bloque, Leccion nueva)
         {
@@ -202,13 +289,44 @@ namespace _2do_Proyecto_Analisis
                         }
                     }
                     int diferencia = clases - Datos.listaCursos[i][j].getClases();
-                    if (diferencia!=0)
+                    if (diferencia != 0)
                     {
-                        fallos ++;
+                        fallos +=Math.Abs(diferencia);
                     }
                 }
             }
             return fallos;
+        }
+        public int getHoraDisponible(int bloque, Leccion x,int inicio,int fin)
+        {
+            if (x==null)
+            {
+                for (int i = 0; i < 50; i++)
+                {
+                    if (i<=fin && i >= inicio)
+                    {
+                        i = fin + 1;
+                        continue;
+                    }
+                    if (this.getLeccion_bloque(i, bloque) == null)
+                        return i;
+                }
+                return -1;
+            }
+            else
+            {
+                for (int i = 0; i < 50; i++)
+                {
+                    if (i <= fin && i >= inicio)
+                    {
+                        i = fin + 1;
+                        continue;
+                    }
+                    if (validar_Campo(i, bloque, x))
+                        return i;
+                }
+                return -1;
+            }
         }
         public int[] apto()
         {
@@ -322,6 +440,23 @@ namespace _2do_Proyecto_Analisis
                 }
             }
             ReadKey();
+        }
+        public void imprimirBloquesShort()
+        {
+            for (int i = 0; i < bloques.GetLength(1); i++)
+            {
+                Console.WriteLine("Bloque " + i + "\tL\tK\tM\tJ\tV");
+                for (int j = 0; j < 10; j++)
+                {
+                    WriteLine(AMPM(j + 7)
+                        + "\t" + (bloques[j, i] != null ? bloques[j, i].getCurso().ToString() + "," + Datos.listaAulas[bloques[j, i].getAula()].getNombre() : "-")
+                        + "\t" + (bloques[j + 10, i] != null ? bloques[j + 10, i].getCurso().ToString() + "," + Datos.listaAulas[bloques[j + 10, i].getAula()].getNombre() : "-")
+                        + "\t" + (bloques[j + 20, i] != null ? bloques[j + 20, i].getCurso().ToString() + "," + Datos.listaAulas[bloques[j + 20, i].getAula()].getNombre() : "-")
+                        + "\t" + (bloques[j + 30, i] != null ? bloques[j + 30, i].getCurso().ToString() + "," + Datos.listaAulas[bloques[j + 30, i].getAula()].getNombre() : "-")
+                        + "\t" + (bloques[j + 40, i] != null ? bloques[j + 40, i].getCurso().ToString() + "," + Datos.listaAulas[bloques[j + 40, i].getAula()].getNombre() : "-"));
+                }
+                Console.WriteLine();
+            }
         }
         public string AMPM(int hora)
         {
