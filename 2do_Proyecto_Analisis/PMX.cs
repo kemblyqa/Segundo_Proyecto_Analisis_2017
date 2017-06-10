@@ -21,9 +21,9 @@ namespace _2do_Proyecto_Analisis
             Datos.listaHorariosHijos = new List<Horario>();
             Datos.listaHorariosPadres = new List<Horario>();
             Datos.poblacionInicial((Datos.cantidadlecciones / 3) * 4);
-            generaciones = Datos.cantidadlecciones * 3;
+            generaciones = Datos.cantidadlecciones * 2;
             Console.Clear();
-            for (int j = 0; j < Datos.cantidadlecciones * 3 && fitness != 0; j++)
+            for (int j = 0; j < Datos.cantidadlecciones * 2 && fitness != 0; j++)
             {
                 PMX.nuevaGeneracion();
                 generaciones--;
@@ -52,7 +52,7 @@ namespace _2do_Proyecto_Analisis
             int newfit=nueva.fitness();
             for (int i = 0; i < Datos.listaHorariosHijos.Count; i++)
             {
-                if (!Datos.distintos(Datos.listaHorariosHijos[i], nueva,Datos.cantidadlecciones/4))
+                if (!Datos.distintos(Datos.listaHorariosHijos[i], nueva,3))
                 {
                     return;
                 }

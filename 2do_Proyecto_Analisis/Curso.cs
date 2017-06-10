@@ -26,7 +26,7 @@ namespace _2do_Proyecto_Analisis
         {
             return numeroLecciones;
         }
-        public String getNombre()
+        public string getNombre()
         {
             return nombre;
         }

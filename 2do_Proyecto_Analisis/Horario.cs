@@ -43,7 +43,7 @@ namespace _2do_Proyecto_Analisis
             Leccion nueva = new Leccion(Datos.randy.Next(0, Datos.listaAulas.Count), bloque,curso);
             while (!validar_Campo(hora,bloque,nueva))
             {
-                nueva.setAutla(Datos.randy.Next(0, Datos.listaAulas.Count));
+                nueva.setAula(Datos.randy.Next(0, Datos.listaAulas.Count));
                 hora = Datos.randy.Next(0, 50);
             }
             this.aulas[hora, nueva.getAula()] = nueva;
@@ -66,7 +66,7 @@ namespace _2do_Proyecto_Analisis
                 for (int y = 0; y < 150; y++)
                 {
                     int i = Datos.randy.Next(0, 50);
-                    x.setAutla(j);
+                    x.setAula(j);
                     if (validar_Campo(i,x.getBloque(),x))
                     {
                         this.setLeccion(i, x.getBloque(), x, false);
@@ -77,6 +77,11 @@ namespace _2do_Proyecto_Analisis
             Console.WriteLine("No se ha podido hallar un espacio disponible para la insercion segura");
             Console.ReadKey();
         }
+        public Leccion getLeccion(int bloque,int hora)
+        {
+            return this.bloques[hora, bloque];
+        }
+        
         public bool setLeccion(int hora,int bloque,Leccion valor,bool clonado)
         {
             if (validar_Campo(hora, bloque, valor))

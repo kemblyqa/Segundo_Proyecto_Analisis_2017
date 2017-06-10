@@ -9,18 +9,21 @@ namespace _2do_Proyecto_Analisis
     class Datos
     {
         public static List<List<Curso>> listaCursos;
+        public static List<int> leccionesPorCurso;
         public static List<Profesor> listaProfesores;
         public static List<Aula> listaAulas;
         public static List<Horario> listaHorariosPadres;
         public static List<Horario> listaHorariosHijos;
         public static List<String> dias;
         public static Random randy;
+
         public static Horario horarioBackTracking;
         public static Horario horarioFinal;
         public static int individuosporgeneracion;
         public static int cantidadlecciones;
         public Datos()
         {
+            leccionesPorCurso = new List<int>();
             Datos.listaCursos = new List<List<Curso>>();
             Datos.listaProfesores = new List<Profesor>();
             Datos.listaAulas = new List<Aula>();
@@ -28,8 +31,6 @@ namespace _2do_Proyecto_Analisis
             Datos.listaHorariosHijos = new List<Horario>();
             Datos.randy = new Random();
             Datos.dias = new List<String>();
-            Datos.horarioBackTracking = new Horario();
-            Datos.horarioFinal = new Horario();
 
             Datos.dias.Add("Lunes ");
             Datos.dias.Add("Martes ");
@@ -43,11 +44,14 @@ namespace _2do_Proyecto_Analisis
             poblacionInicial(1);
             cantidadlecciones = listaHorariosHijos[0].leccionesDentro();
             poblacionInicial((cantidadlecciones/3)*4);
+
+            Datos.horarioBackTracking = new Horario();
+            Datos.horarioFinal = new Horario();
         }
         public static void poblacionInicial(int cantidad)
         {
             individuosporgeneracion = cantidad+1;
-            for (int i = 0; i < cantidad; i++)
+            while(listaHorariosHijos.Count<cantidad)
             {
                 Horario nuevo = new Horario();
                 for (int j = 0; j < listaCursos.Count; j++)
@@ -64,7 +68,7 @@ namespace _2do_Proyecto_Analisis
                 bool unico = true;
                 for (int m = 0; m < listaHorariosHijos.Count; m++)
                 {
-                    if (!distintos(nuevo, listaHorariosHijos[m],cantidadlecciones))
+                    if (!distintos(nuevo, listaHorariosHijos[m],1))
                     {
                         unico = false;
                     }
@@ -88,35 +92,40 @@ namespace _2do_Proyecto_Analisis
                 return disponibles[randy.Next(0, disponibles.Count)];
             return -1;
         }
-
+        public void insertar_curso(string nombre,int clases,int bloque, int lecciones)
+        {
+            for (int i = listaCursos.Count; i <= bloque; i++)
+            {
+                listaCursos.Add(new List<Curso>());
+                leccionesPorCurso.Add(0);
+            }
+            listaCursos[bloque].Add(new Curso(nombre, clases, bloque, lecciones));
+            leccionesPorCurso[bloque] += lecciones;
+        }
         public void llenarCursos() //[0] bloque, [1] cursos del bloque
         {
             //0
-            listaCursos.Add(new List<Curso>());
-            listaCursos[0].Add(new Curso("Inglés Básico", 1, 0, 3)); //0
-            listaCursos[0].Add(new Curso("Matemática General", 2, 0, 5));//1
+            insertar_curso("Inglés Básico", 1, 0, 3); //0
+            insertar_curso("Matemática General", 2, 0, 5);//1
             //1
-            listaCursos.Add(new List<Curso>());
-            listaCursos[1].Add(new Curso("Ingles I", 1, 1, 3));//0
-            listaCursos[1].Add(new Curso("Comunicación Técnica", 1, 1, 4));//1
-            listaCursos[1].Add(new Curso("Fundamentos de organización de computadoras", 1, 1, 4));//2
-            listaCursos[1].Add(new Curso("Introducción a la programación", 2, 1, 4));//3
-            listaCursos[1].Add(new Curso("Taller de programación", 2, 1, 4));//4
-            listaCursos[1].Add(new Curso("Matemática discreta", 2, 1, 4));//5
+            insertar_curso("Ingles I", 1, 1, 3);//0
+            insertar_curso("Comunicación Técnica", 1, 1, 4);//1
+            insertar_curso("Fundamentos de organización de computadoras", 1, 1, 4);//2
+            insertar_curso("Introducción a la programación", 2, 1, 4);//3
+            insertar_curso("Taller de programación", 2, 1, 4);//4
+            insertar_curso("Matemática discreta", 2, 1, 4);//5
             //2
-            listaCursos.Add(new List<Curso>());
-            listaCursos[2].Add(new Curso("Ingles II", 1, 2, 3));//0
-            listaCursos[2].Add(new Curso("Estructuras de datos", 1, 2, 4));//1
-            listaCursos[2].Add(new Curso("Programación orientada a objetos", 1, 2, 4));//2
-            listaCursos[2].Add(new Curso("Arquitectura de computadores", 1, 2, 4));//3
-            listaCursos[2].Add(new Curso("Cálculo", 2, 2, 4));//4
+            insertar_curso("Ingles II", 1, 2, 3);//0
+            insertar_curso("Estructuras de datos", 1, 2, 4);//1
+            insertar_curso("Programación orientada a objetos", 1, 2, 4);//2
+            insertar_curso("Arquitectura de computadores", 1, 2, 4);//3
+            insertar_curso("Cálculo", 2, 2, 4);//4
             //3
-            listaCursos.Add(new List<Curso>());
-            listaCursos[3].Add(new Curso("Ingles III", 1, 3, 3));//0
-            listaCursos[3].Add(new Curso("Ambiente humano", 1, 3, 3));//1
-            listaCursos[3].Add(new Curso("Análisis de algoritmos", 2, 3, 4));//2
-            listaCursos[3].Add(new Curso("Bases de datos I", 2, 3, 4));//3
-            listaCursos[3].Add(new Curso("Álgebra lineal", 2, 3, 4));//4
+            insertar_curso("Ingles III", 1, 3, 3);//0
+            insertar_curso("Ambiente humano", 1, 3, 3);//1
+            insertar_curso("Análisis de algoritmos", 2, 3, 4);//2
+            insertar_curso("Bases de datos I", 2, 3, 4);//3
+            insertar_curso("Álgebra lineal", 2, 3, 4);//4
         }
 
         public void llenarProfesores()
@@ -241,11 +250,10 @@ namespace _2do_Proyecto_Analisis
             {
                 for (int j = 0; j < 50; j++)
                 {
-                    if ((a.getLeccion_bloque(j, i) != null ? a.getLeccion_bloque(j, i).getCurso() : -1) !=
-                        (b.getLeccion_bloque(j, i) != null ? b.getLeccion_bloque(j, i).getCurso() : -1))
+                    if (!Datos.cursoEqual(a.getLeccion_bloque(j, i), b.getLeccion_bloque(j, i)))
                     {
                         diferencias++;
-                        if (diferencias > x)
+                        if (diferencias > cantidadlecciones / x)
                             return true;
                     }
                 }

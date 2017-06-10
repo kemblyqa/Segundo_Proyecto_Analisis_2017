@@ -10,9 +10,36 @@ namespace _2do_Proyecto_Analisis
     class Program
     {
         static Datos datos = new Datos();
+        static BackTracking back;
+        static int generaciones;
         static void Main(string[] args)
         {
             CycleX.cruceCycleX();
+            PMX.crucePMX();
+            //WriteLine(Datos.listaAulas[1].horavalida(6));
+            //imprimirPoblacion_Bloques(Datos.listaHorariosHijos);
+            //int fitness = -1;
+            //generaciones = 0;
+            //Console.Clear();
+            //while (fitness !=0)
+            //{
+            //    PMX.nuevaGeneracion();
+            //    generaciones++;
+            //    for (int i = 0; i < Datos.listaHorariosHijos.Count; i++)
+            //    {
+            //        System.Console.SetCursorPosition(0, 0);
+            //        WriteLine("Promedio Fitness:" + Datos.listaHorariosHijos[i].fitness().ToString() + "\t\nMejor Fitness\t:" + fitness.ToString() + "\t\nGeneraciones\t:" + generaciones.ToString());
+            //        fitness = Datos.listaHorariosHijos[i].fitness() < fitness || fitness==-1 ? Datos.listaHorariosHijos[i].fitness() : fitness;
+            //        if (fitness == 0)
+            //        {
+            //            Datos.listaHorariosHijos[i].imprimir_Bloques();
+            //            break;
+            //        }
+            //    }
+            ////}
+            //back = new BackTracking();
+            //back.backTracking();
+            //ReadKey();
         }
 
         static void imprimirPoblacion_Aulas( List<Horario> poblacion)

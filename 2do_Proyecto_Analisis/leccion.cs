@@ -29,9 +29,17 @@ namespace _2do_Proyecto_Analisis
         {
             return this.idCurso;
         }
-        public void setAutla(int x)
+        public void setAula(int idAula)
         {
-            this.idAula = x;
+            this.idAula = idAula;
+        }
+        public void setBloque(int idBloque)
+        {
+            this.idBloque = idBloque;
+        }
+        public void setCurso(int idCurso)
+        {
+            this.idCurso = idCurso;
         }
     }
 }

@@ -8,21 +8,67 @@ namespace _2do_Proyecto_Analisis
 {
     class BackTracking
     {
-        public void backTracking()
+        List<List<Leccion>> listaPilasBloque;
+        Random rnd;
+        public BackTracking()
         {
-            backTrackingRec(Datos.horarioBackTracking, Datos.listaCursos, 0);
+            rnd = new Random();
+            listaPilasBloque = new List<List<Leccion>>();
+            for (int i = 0; i < Datos.listaCursos.Count; i++)
+            {
+                listaPilasBloque.Add(new List<Leccion>());
+                for (int j = 0; j < Datos.listaCursos[i].Count; j++)
+                {
+                    for (int k = 0; k < Datos.listaCursos[i][j].getLecciones(); k++)
+                    {
+                        listaPilasBloque[i].Add(new Leccion(-1, i, j));
+                    }
+                }
+            }           
         }
 
-        public bool backTrackingRec(Horario horario, List<List<Curso>> cursos, int hora)
+        public void backTracking()
         {
-            for (int i = 0; i < cursos.Count; i++)//total de bloques
-            {
-                for (int j = 0; j < cursos[i].Count; j++)
-                {
+            backTrackingRec(Datos.horarioBackTracking, 0, listaPilasBloque);
+            Datos.horarioFinal.imprimir_Bloques();
+        }
 
+        public bool backTrackingRec(Horario horario, int bloque, List<List<Leccion>> pilaPorBloque)
+        {
+            if (bloque < Datos.listaCursos.Count)
+            {
+                Console.SetCursorPosition(0, 0);
+                Console.WriteLine("Bloque: " + bloque + " Lecciones restantes: " + pilaPorBloque[bloque].Count + "\t");
+                for (int i = 0; i < pilaPorBloque[bloque].Count; i++)
+                {
+                    for (int j = 0; j < Datos.listaAulas.Count; j++)
+                    {
+                        for (int k = 0; k < 50; k++)
+                        {
+                            pilaPorBloque[bloque][i].setAula(j);
+
+                            if (horario.setLeccion(k, bloque, pilaPorBloque[bloque][i], true))
+                            {
+                                Leccion temp = pilaPorBloque[bloque][i];
+                                pilaPorBloque[bloque].RemoveAt(i);
+                                if (backTrackingRec(horario, pilaPorBloque[bloque].Count == 0 ? bloque + 1 : bloque, pilaPorBloque))
+                                {
+                                    pilaPorBloque[bloque].Insert(i, temp);
+                                    return true;
+                                }
+                                pilaPorBloque[bloque].Insert(i, temp);
+                                horario.popLeccion(bloque, k);
+                            }
+                        }
+                    }
                 }
+                return false;
             }
-            return false;
+            else
+            {
+                Datos.horarioFinal = Datos.clonar(horario);
+                return true;
+            }           
         }
     }
 }

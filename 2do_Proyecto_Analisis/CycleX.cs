@@ -17,7 +17,7 @@ namespace _2do_Proyecto_Analisis
             int newfit = nueva.fitness();
             for (int i = 0; i < Datos.listaHorariosHijos.Count; i++)
             {
-                if (!Datos.distintos(Datos.listaHorariosHijos[i], nueva, Datos.cantidadlecciones / 4))
+                if (!Datos.distintos(Datos.listaHorariosHijos[i], nueva, 2))
                 {
                     return;
                 }
@@ -37,10 +37,10 @@ namespace _2do_Proyecto_Analisis
             int fitness = -1;
             Datos.listaHorariosHijos = new List<Horario>();
             Datos.listaHorariosPadres = new List<Horario>();
-            Datos.poblacionInicial((Datos.cantidadlecciones / 3) * 4);
-            generaciones = Datos.cantidadlecciones * 3;
+            Datos.poblacionInicial((Datos.cantidadlecciones / 3) * 5);
+            generaciones = (Datos.cantidadlecciones/3) * 4;
             Console.Clear();
-            for (int j = 0; j < Datos.cantidadlecciones * 3 && fitness != 0; j++)
+            for (int j = 0; j < (Datos.cantidadlecciones / 3) * 4 && fitness != 0; j++)
             {
                 CycleX.nuevaGeneracion();
                 generaciones--;
@@ -138,16 +138,24 @@ namespace _2do_Proyecto_Analisis
                 }
             }
             Horario[] padres = new Horario[2] { a, b };
+            bool mutacion=false;
             for (int i = 0; i < ciclos.Count; i++)
             {
-                while(ciclos[i].Count!=0)
+                if (Datos.randy.Next(0, 9) == 0)
                 {
-                    if (camada[0] != null && !camada[0].insertarFuerte(ciclos[i][0], bloque, padres[i%2].getLeccion_bloque(ciclos[i][0], bloque), 51, -2))
+                    mutacion = true;
+                    mutaciones++;
+                }
+                while (ciclos[i].Count!=0)
+                {
+
+                    
+                    if (camada[0] != null && !camada[0].insertarFuerte(ciclos[i][0], bloque, padres[mutacion ? (i + 1) % 2 : i % 2].getLeccion_bloque(ciclos[i][0], bloque), 51, -2))
                     {
                         camada[0] = null;
                         fallos++;
                     }
-                    if (camada[1] != null && !camada[1].insertarFuerte(ciclos[i][0], bloque, padres[(i+1)%2].getLeccion_bloque(ciclos[i][0], bloque), 51, -2))
+                    if (camada[1] != null && !camada[1].insertarFuerte(ciclos[i][0], bloque, padres[mutacion ? i % 2 : (i + 1) % 2].getLeccion_bloque(ciclos[i][0], bloque), 51, -2))
                     {
                         camada[1] = null;
                         fallos++;
@@ -156,6 +164,8 @@ namespace _2do_Proyecto_Analisis
                     if (camada[0] == null && camada[1] == null)
                         return camada;
                 }
+
+                mutacion =false;
             }
             return camada;
         }
