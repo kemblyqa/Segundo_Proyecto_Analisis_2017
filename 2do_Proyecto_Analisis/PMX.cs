@@ -12,7 +12,7 @@ namespace _2do_Proyecto_Analisis
         static int mutaciones,fallos = 0;
         static int generaciones;
         static List<Horario> camada;
-        public static void crucePMX()
+        public static void solucionPMX()
         {
             mutaciones = 0;
             fallos = 0;
@@ -75,7 +75,7 @@ namespace _2do_Proyecto_Analisis
                 madre = Datos.randy.Next(0,(Datos.individuosporgeneracion/3));
                 padre = Datos.randy.Next(0, Datos.listaHorariosHijos.Count);
 
-                List<Horario> camada = cruce_Bloques(padre,madre,true);
+                List<Horario> camada = crucePMX(padre,madre,true);
                 insertarCria(camada[0]);
                 insertarCria(camada[1]);
             }
@@ -92,16 +92,16 @@ namespace _2do_Proyecto_Analisis
 
             return null;
         }
-        public static List<Horario> cruce_Bloques(int padre, int madre, bool todo)
+        public static List<Horario> crucePMX(int padre, int madre, bool multiBloque)
         {
             PMX.camada = new List<Horario>();
             camada.Add(Datos.clonar(Datos.listaHorariosPadres[padre]));
             camada.Add(Datos.clonar(Datos.listaHorariosPadres[madre]));
             int[] intervalo = new int[2];
             int repeticiones;
-            if (todo)
+            if (multiBloque)
             {
-                repeticiones=Datos.randy.Next(0,Datos.listaCursos.Count);
+                repeticiones=Datos.randy.Next(Datos.listaCursos.Count>1?2:0,Datos.listaCursos.Count);
             }
             else
             {
@@ -114,22 +114,18 @@ namespace _2do_Proyecto_Analisis
                 Leccion aux;
                 intervalo[0] = Datos.randy.Next(0, 30);
                 intervalo[1] = Datos.randy.Next(intervalo[0], intervalo[0] + 20);
-                for (int i = intervalo[0]; i <= intervalo[1]; i++)
-                {
-                    for (int j = 0; j < 2; j++)
-                    {
-                        int x = camada[j].getEncargado(camada[(j + 1) % 2].getLeccion_bloque(i, bloque));
-                        if (x != -1 && !Datos.listaProfesores[x].horavalida(i))
-                        {
-                            fallos++;
-                            return new List<Horario>() { null, null };
-                        }
-                        else
-                        {
-
-                        }
-                    }
-                }
+                //for (int i = intervalo[0]; i <= intervalo[1]; i++)
+                //{
+                //    for (int j = 0; j < 2; j++)
+                //    {
+                //        int x = camada[j].getEncargado(camada[(j + 1) % 2].getLeccion_bloque(i, bloque));
+                //        if (x != -1 && !Datos.listaProfesores[x].horavalida(i))
+                //        {
+                //            fallos+=2;
+                //            return new List<Horario>() { null, null };
+                //        }
+                //    }
+                //}
                 for (int i = intervalo[0]; i <= intervalo[1]; i++)
                 {
                     aux = camada[0].popLeccion(bloque, i);

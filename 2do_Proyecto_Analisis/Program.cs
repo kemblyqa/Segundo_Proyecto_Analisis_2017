@@ -14,8 +14,8 @@ namespace _2do_Proyecto_Analisis
         static int generaciones;
         static void Main(string[] args)
         {
-            CycleX.cruceCycleX();
-            PMX.crucePMX();
+            PMX.solucionPMX();
+            CycleX.solucionCycleX();
             //WriteLine(Datos.listaAulas[1].horavalida(6));
             //imprimirPoblacion_Bloques(Datos.listaHorariosHijos);
             //int fitness = -1;

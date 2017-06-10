@@ -29,7 +29,7 @@ namespace _2do_Proyecto_Analisis
             }
             Datos.listaHorariosHijos.Add(nueva);
         }
-        public static void cruceCycleX()
+        public static void solucionCycleX()
         {
             mutaciones = 0;
             fallos = 0;
@@ -73,7 +73,7 @@ namespace _2do_Proyecto_Analisis
                 madre = Datos.randy.Next(0, (Datos.individuosporgeneracion / 3));
                 padre = Datos.randy.Next(0, Datos.listaHorariosHijos.Count);
 
-                Horario[] camada = cruce(padre, madre);
+                Horario[] camada = cruceCyclex(padre, madre);
                 insertarCria(camada[0]);
                 insertarCria(camada[1]);
             }
@@ -85,7 +85,7 @@ namespace _2do_Proyecto_Analisis
                 }
             }
         }
-        public static Horario[] cruce(int padre, int madre)
+        public static Horario[] cruceCyclex(int padre, int madre)
         {
             Horario[] camada = new Horario[2] { new Horario(), new Horario() };
             Horario a = Datos.listaHorariosPadres[padre];
