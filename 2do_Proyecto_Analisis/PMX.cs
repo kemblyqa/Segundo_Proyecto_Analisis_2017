@@ -129,21 +129,12 @@ namespace _2do_Proyecto_Analisis
                 for (int i = intervalo[0]; i <= intervalo[1]; i++)
                 {
                     aux = camada[0].popLeccion(bloque, i);
-                    if (
-                    !camada[0].insertarFuerte(i, bloque, camada[1].popLeccion(bloque, i), intervalo[0], intervalo[1]) ||
-                    !camada[1].insertarFuerte(i, bloque, aux, intervalo[0], intervalo[1]))
-                    {
+                    camada[0].insertarFuerte(i, bloque, camada[1].popLeccion(bloque, i), intervalo[0], intervalo[1]);
+                    camada[1].insertarFuerte(i, bloque, aux, intervalo[0], intervalo[1]);
 
-                    }
-
-                    int[] tupla = new int[2];
-
-                    aux = camada[0].getLeccion_bloque(i, bloque);
-                    tupla[0] = aux != null ? aux.getCurso() : -1;
-
-                    aux = camada[1].getLeccion_bloque(i, bloque);
-                    tupla[1] = aux != null ? aux.getCurso() : -1;
-                    mapeo = insertarMapeo(mapeo, tupla);
+                    mapeo = insertarMapeo(mapeo, new int[2] {
+                        camada[0].getLeccion_bloque(i, bloque) != null ? camada[0].getLeccion_bloque(i, bloque).getCurso() : -1,
+                        camada[1].getLeccion_bloque(i, bloque) != null ? camada[1].getLeccion_bloque(i, bloque).getCurso() : -1});
                 }
                 Leccion[,] pila = new Leccion[2, mapeo.Count];
                 int[,] horas = new int[mapeo.Count, 2];

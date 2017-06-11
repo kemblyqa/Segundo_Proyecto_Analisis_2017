@@ -113,7 +113,7 @@ namespace _2do_Proyecto_Analisis
                         return false;
                     if (!setLeccion(auxh, bloque, aux, false))
                     {
-
+                        return false;
                     }
                 }
             }

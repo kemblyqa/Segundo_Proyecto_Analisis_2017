@@ -117,20 +117,15 @@ namespace _2do_Proyecto_Analisis
                 int inicio = Datos.randy.Next(0, restantes.Count);
                 ciclos[ciclos.Count - 1].Add(restantes[inicio]);
                 restantes.RemoveAt(inicio);
-                if (Datos.cursoEqual(a.getLeccion_bloque(ciclos[ciclos.Count-1][0], bloque), b.getLeccion_bloque(ciclos[ciclos.Count - 1][0], bloque)))
-                    continue;
-                int cursor = ciclos[ciclos.Count - 1][0];
-                bool arranque = true;
-                while (arranque || !Datos.cursoEqual(a.getLeccion_bloque(ciclos[ciclos.Count - 1][0], bloque),b.getLeccion_bloque(cursor,bloque)))
+                while (!Datos.cursoEqual(   a.getLeccion_bloque(ciclos[ciclos.Count - 1][0], bloque),
+                                            b.getLeccion_bloque(ciclos[ciclos.Count - 1][ciclos[ciclos.Count - 1].Count-1], bloque)))
                 {
-                    arranque = false;
                     for (int i = 0; i < restantes.Count; i++)
                     {
                         if (Datos.cursoEqual(   a.getLeccion_bloque(restantes[i], bloque), 
-                                                b.getLeccion_bloque(cursor, bloque)))
+                                                b.getLeccion_bloque(ciclos[ciclos.Count - 1][ciclos[ciclos.Count - 1].Count - 1], bloque)))
                         {
                             ciclos[ciclos.Count - 1].Add(restantes[i]);
-                            cursor = restantes[i];
                             restantes.RemoveAt(i);
                             break;
                         }
@@ -141,6 +136,7 @@ namespace _2do_Proyecto_Analisis
             bool mutacion=false;
             for (int i = 0; i < ciclos.Count; i++)
             {
+
                 if (Datos.randy.Next(0, 9) == 0)
                 {
                     mutacion = true;
@@ -148,14 +144,12 @@ namespace _2do_Proyecto_Analisis
                 }
                 while (ciclos[i].Count!=0)
                 {
-
-                    
-                    if (camada[0] != null && !camada[0].insertarFuerte(ciclos[i][0], bloque, padres[mutacion ? (i + 1) % 2 : i % 2].getLeccion_bloque(ciclos[i][0], bloque), 51, -2))
+                    if (camada[0] != null && !camada[0].insertarFuerte(ciclos[i][0], bloque, padres[i % 2].getLeccion_bloque(ciclos[i][0], bloque), 51, -2))
                     {
                         camada[0] = null;
                         fallos++;
                     }
-                    if (camada[1] != null && !camada[1].insertarFuerte(ciclos[i][0], bloque, padres[mutacion ? i % 2 : (i + 1) % 2].getLeccion_bloque(ciclos[i][0], bloque), 51, -2))
+                    if (camada[1] != null && !camada[1].insertarFuerte(ciclos[i][0], bloque, padres[(i + 1) % 2].getLeccion_bloque(ciclos[i][0], bloque), 51, -2))
                     {
                         camada[1] = null;
                         fallos++;
