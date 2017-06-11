@@ -133,23 +133,26 @@ namespace _2do_Proyecto_Analisis
                 }
             }
             Horario[] padres = new Horario[2] { a, b };
-            bool mutacion=false;
+            int index;
             for (int i = 0; i < ciclos.Count; i++)
             {
-
                 if (Datos.randy.Next(0, 9) == 0)
                 {
-                    mutacion = true;
+                    index = i + 1;
                     mutaciones++;
+                }
+                else
+                {
+                    index = i;
                 }
                 while (ciclos[i].Count!=0)
                 {
-                    if (camada[0] != null && !camada[0].insertarFuerte(ciclos[i][0], bloque, padres[i % 2].getLeccion_bloque(ciclos[i][0], bloque), 51, -2))
+                    if (camada[0] != null && !camada[0].insertarFuerte(ciclos[i][0], bloque, padres[index % 2].getLeccion_bloque(ciclos[i][0], bloque), 51, -2))
                     {
                         camada[0] = null;
                         fallos++;
                     }
-                    if (camada[1] != null && !camada[1].insertarFuerte(ciclos[i][0], bloque, padres[(i + 1) % 2].getLeccion_bloque(ciclos[i][0], bloque), 51, -2))
+                    if (camada[1] != null && !camada[1].insertarFuerte(ciclos[i][0], bloque, padres[(index + 1) % 2].getLeccion_bloque(ciclos[i][0], bloque), 51, -2))
                     {
                         camada[1] = null;
                         fallos++;
@@ -158,8 +161,6 @@ namespace _2do_Proyecto_Analisis
                     if (camada[0] == null && camada[1] == null)
                         return camada;
                 }
-
-                mutacion =false;
             }
             return camada;
         }

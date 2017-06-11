@@ -11,7 +11,6 @@ namespace _2do_Proyecto_Analisis
     {
         static Datos datos = new Datos();
         static BackTracking back;
-        static int generaciones;
         static void Main(string[] args)
         {
             CycleX.solucionCycleX();
